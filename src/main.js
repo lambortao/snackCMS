@@ -10,6 +10,7 @@ Vue.config.productionTip = false
 // iview的导入
 import { 
   Button,
+  Layout,
   Table,
   Icon,
   Grid,
@@ -20,9 +21,10 @@ import {
   Input,
   Radio,
   Checkbox,
-  Switch,
-  Select } from 'iview';
+  Select,
+  Sider } from 'iview';
 Vue.component('Button', Button);
+Vue.component('Layout', Layout);
 Vue.component('Table', Table);
 Vue.component('Icon', Icon);
 Vue.component('Grid', Grid);
@@ -33,8 +35,8 @@ Vue.component('Dropdown', Dropdown);
 Vue.component('Radio', Radio);
 Vue.component('Checkbox', Checkbox);
 Vue.component('Input', Input);
-Vue.component('Switch', Switch);
 Vue.component('Select', Select);
+Vue.component('Sider', Sider);
 
 /* eslint-disable no-new */
 new Vue({
