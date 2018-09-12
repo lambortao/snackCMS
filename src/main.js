@@ -3,8 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import 'iview/dist/styles/iview.css';
 
 Vue.config.productionTip = false
+
+import { Button, Table } from 'iview';
+Vue.component('Button', Button);
+Vue.component('Table', Table);
 
 /* eslint-disable no-new */
 new Vue({
