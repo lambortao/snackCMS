@@ -27,6 +27,7 @@ export default {
   background-color: #fafafa;
   display: flex;
   justify-content: space-between;
+  z-index: 1;
 
   .main{
     width: calc(100vw - 60px);

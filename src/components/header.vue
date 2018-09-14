@@ -20,6 +20,7 @@ header{
   border-bottom: 1px solid $borderColor;
   box-shadow: 0 4px 10px 0 rgba(0,0,0,.05);
   z-index: 2;
+  position: relative;
 
   img{
     height: 30px;
