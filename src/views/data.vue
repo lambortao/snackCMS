@@ -1,7 +1,5 @@
 <template>
-  <div id="home">
-    <router-view class="main"/>
-  </div>
+  <div id="data"></div>
 </template>
 <script>
 export default {
@@ -11,3 +9,4 @@ export default {
 <style lang="scss" scoped>
 
 </style>
+
