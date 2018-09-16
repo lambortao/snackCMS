@@ -1,5 +1,5 @@
 <template>
-  <div id="data">数据浏览</div>
+  <div id="data"></div>
 </template>
 <script>
 export default {

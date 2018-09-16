@@ -23,6 +23,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import '@/assets/scss/methods.scss';
+
 #home{
   width: 100%;
   height: calc(100vh - 60px);
@@ -32,15 +34,20 @@ export default {
   z-index: 1;
 
   .main{
-    width: calc(100vw - 60px);
+    width: calc(100vw - 180px);
     overflow-x: hidden;
     overflow-y: scroll;
     position: relative;
     padding: 20px;
 
     > div{
+      width: calc(100vw - 220px);
       position: absolute;
       padding: 20px;
+      background-color: #fff;
+      border: 1px solid $borderColor;
+      border-radius: 3px;
+      flex: 1;
     }
   }
 }
