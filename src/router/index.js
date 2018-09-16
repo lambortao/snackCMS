@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 let Home = () => import('@/views/home');
 let Login = () => import('@/views/login'); // 登录
+let ProductList = () => import('@/views/product-list');
+let Product = () => import('@/views/product');
 let OrderList = () => import('@/views/order-list'); // 订单列表
 let Order = () => import('@/views/order'); // 订单详情页
 let PurchaseList = () => import('@/views/purchase-list'); // 采购列表
@@ -41,6 +43,16 @@ export default new Router({
           path: 'admin',
           name: '管理员页面',
           component: Admin
+        },
+        {
+          path: 'product',
+          name: '商品列表',
+          component: ProductList
+        },
+        {
+          path: 'product/detail',
+          name: '商品详情',
+          component: Product
         },
         {
           path: 'user',

@@ -26,6 +26,11 @@ export default {
           icon: 'icon/1.png',
           url: 'order'
         },
+        'product': {
+          name: '商品',
+          icon: 'icon/7.png',
+          url: 'product'
+        },
         'user': {
           name: '用户',
           icon: 'icon/5.png',
