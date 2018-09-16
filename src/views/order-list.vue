@@ -1,7 +1,7 @@
 <template>
   <div id="orderList">
     <header>
-      <el-row>
+      <el-row :gutter="10">
         <el-col :span="3">
           <el-select v-model="value" placeholder="选择用户">
             <el-option
@@ -22,8 +22,8 @@
             </el-option>
           </el-select>
         </el-col>
-        <el-col :span="3" :offset="15">
-          <el-input v-model="input" placeholder="输入用户名或商品名来搜索"></el-input>
+        <el-col :span="4" :offset="14">
+          <el-input prefix-icon="el-icon-search" v-model="input" placeholder="仅限用户和商品"></el-input>
         </el-col>
       </el-row>
     </header>
@@ -35,6 +35,10 @@
         stripe>
         <el-table-column
           fixed
+          type="index"
+          width="50">
+        </el-table-column>
+        <el-table-column
           prop="date"
           label="日期">
         </el-table-column>
@@ -159,12 +163,11 @@ export default {
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
     }
-  },
+  }
 }
 </script>
 <style lang="scss" scoped>
 @import '@/assets/scss/methods.scss';
-
 section{
   margin: 20px 0;
   padding: 20px 0;
