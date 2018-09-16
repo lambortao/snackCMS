@@ -14,6 +14,7 @@ import {
   Table,
   Icon,
   Grid,
+  Page,
   Menu,
   Card,
   Tabs,
@@ -28,6 +29,7 @@ Vue.component('Layout', Layout);
 Vue.component('Table', Table);
 Vue.component('Icon', Icon);
 Vue.component('Grid', Grid);
+Vue.component('Page', Page);
 Vue.component('Menu', Menu);
 Vue.component('Card', Card);
 Vue.component('Tabs', Tabs);
