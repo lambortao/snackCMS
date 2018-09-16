@@ -27,7 +27,13 @@ export default new Router({
       component: Home,
       children: [
         {
-          path: '',
+          path: '/data',
+          name: '首页',
+          alias: '/',
+          component: Data
+        },
+        {
+          path: 'data',
           name: '数据统计',
           component: Data
         },

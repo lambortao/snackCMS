@@ -3,9 +3,11 @@
     <Header></Header>
     <div id="home">
       <Menu></Menu>
-      <transition name="fade">
-        <router-view class="main" />
-      </transition>
+      <div class="main">
+        <transition name="fade">
+          <router-view />
+        </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -33,21 +35,30 @@ export default {
     width: calc(100vw - 60px);
     overflow-x: hidden;
     overflow-y: scroll;
+    position: relative;
     padding: 20px;
+
+    > div{
+      position: absolute;
+      padding: 20px;
+    }
   }
 }
 .fade-enter-active,
 .fade-leave-active{
-  transition: all 300ms ease;
+  transition: all 200ms ease;
 }
 .fade-enter{
   opacity: 0;
+  transform: translateY(5px);
 }
 .fade-enter-to,
 .fade-leave{
   opacity: 1;
+  transform: translateY(0px);
 }
 .fade-leave-to{
   opacity: 0;
+  transform: translateY(-5px);
 }
 </style>
