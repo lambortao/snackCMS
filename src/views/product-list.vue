@@ -3,7 +3,7 @@
     <header>
       <el-row :gutter="5">
         <el-col :span="3">
-          <el-button style="width: 100%;" type="primary" plain icon="el-icon-circle-plus-outline">新增商品</el-button>
+          <el-button @click="addProduct()" style="width: 100%;" type="primary" plain icon="el-icon-circle-plus-outline">新增商品</el-button>
         </el-col>
         <el-col :span="4">
           <el-select v-model="value" placeholder="筛选商品">
@@ -155,6 +155,9 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+    },
+    addProduct() {
+      this.$router.push({path:'product/detail?id=123'});
     }
   }
 }
