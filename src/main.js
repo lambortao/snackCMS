@@ -5,9 +5,20 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import App from './App'
 import router from './router'
+import axios from 'axios';
+
+// 调取公用函数内的接口函数
+import { __port, __del, __hot } from '@/api'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI);
+
+// 全局注册
+Vue.prototype.$port = __port;
+Vue.prototype.$del = __del;
+Vue.prototype.$hot = __hot;
+Vue.prototype.$http = axios;
+Vue.urlHost = 'http://server.zytao.cc/snackcms/admin.php/';
 
 /* eslint-disable no-new */
 new Vue({
