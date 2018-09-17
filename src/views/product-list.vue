@@ -22,39 +22,62 @@
     </header>
     <section>
       <el-table
-        :data="tableData3"
+        :data="newProductList"
         style="width: 100%"
         border 
         stripe>
         <el-table-column
           fixed
           type="index"
-          width="50">
-        </el-table-column>
-        <el-table-column
-          prop="date"
-          label="日期">
+          width="40"
+          align="center">
         </el-table-column>
         <el-table-column
           prop="name"
-          label="姓名">
+          label="商品名"
+          align="center">
         </el-table-column>
         <el-table-column
-          prop="province"
-          label="省份">
+          prop="price"
+          label="单价"
+          width="100"
+          align="center">
         </el-table-column>
         <el-table-column
-          prop="city"
-          label="市区">
+          prop="stock"
+          label="库存"
+          width="100"
+          align="center">
         </el-table-column>
         <el-table-column
-          prop="address"
-          label="地址"
-          width="300">
+          label="上架"
+          width="100"
+          align="center">
+          <template slot-scope="scope">
+            <el-switch
+              v-model="scope.row.sell"
+              active-color="#13ce66"
+              inactive-color="#ff4949">
+            </el-switch>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="zip"
-          label="邮编">
+          label="采购"
+          width="100"
+          align="center">
+          <template slot-scope="scope">
+            <el-button plain size="small">点击采购</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="操作"
+          width="200"
+          align="center">
+          <template slot-scope="scope">
+            <el-button plain size="small">改</el-button>
+            <el-button plain size="small">顶</el-button>
+            <el-button plain size="small" type="danger">删</el-button>
+          </template>
         </el-table-column>
       </el-table>
     </section>
@@ -62,11 +85,9 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage4"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="30"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="400">
+        :current-page="currentPage"
+        layout="total, prev, pager, next"
+        :total="newProductLength">
       </el-pagination>
     </footer>
   </div>
@@ -75,10 +96,7 @@
 export default {
   data() {
     return {
-      currentPage1: 5,
-      currentPage2: 5,
-      currentPage3: 5,
-      currentPage4: 4,
+      currentPage: 1,
       input: '',
       options: [{
         value: '选项1',
@@ -97,59 +115,21 @@ export default {
         label: '北京烤鸭'
       }],
       value: '',
-      tableData3: [{
-        date: '2016-05-03',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-02',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-08',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-06',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-07',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }]
+      newProductList: [],
+      newProductLength: 0
     }
   },
+  created () {
+    this.getProductList();
+  },
   methods: {
+    getProductList () {
+      this.$port('product/getProductList').then((res) => {
+        this.newProductList = res;
+        this.newProductLength = res.length;
+        console.log(res.length);
+      })
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },

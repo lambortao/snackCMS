@@ -82,6 +82,7 @@
 export default {
   data() {
     return {
+      
       currentPage1: 5,
       currentPage2: 5,
       currentPage3: 5,
@@ -155,6 +156,9 @@ export default {
         zip: 200333
       }]
     }
+  },
+  created () {
+    
   },
   methods: {
     handleSizeChange(val) {
