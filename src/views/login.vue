@@ -1,5 +1,7 @@
 <template>
-  <div id="login">xxxxxxxxx</div>
+  <div id="login">
+    这是登录页
+  </div>
 </template>
 <script>
 export default {
