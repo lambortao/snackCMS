@@ -25,7 +25,8 @@
         :data="newProductList"
         style="width: 100%"
         border 
-        stripe>
+        stripe
+        v-loading="loading">
         <el-table-column
           fixed
           type="index"
@@ -96,6 +97,7 @@
 export default {
   data() {
     return {
+      loading: false,
       currentPage: 1,
       input: '',
       options: [{
@@ -124,10 +126,11 @@ export default {
   },
   methods: {
     getProductList () {
+      this.loading = true;
       this.$port('product/getProductList').then((res) => {
         this.newProductList = res;
         this.newProductLength = res.length;
-        console.log(res.length);
+        this.loading = false;
       })
     },
     handleSizeChange(val) {
