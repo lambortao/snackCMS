@@ -9,8 +9,9 @@
       </el-form-item>
       <el-form-item label="KV图" prop="kv">
         <el-upload
+          id="uploadImg"
           class="avatar-uploader"
-          action="https://upload.qiniup.com"
+          action="http://server.zytao.cc/snackcms/admin.php/api/saveimages"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload">
