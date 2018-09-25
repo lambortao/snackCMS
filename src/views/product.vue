@@ -7,6 +7,14 @@
       <el-form-item label="商品简介" prop="intro">
         <el-input type="textarea" v-model="ruleForm.intro" style="width: 300px;"></el-input>
       </el-form-item>
+      <el-form-item label="头图" prop="kv">
+        <imageUpload 
+          v-model="ruleForm.kv" 
+          :image-type="kvData.type"
+          :image-size="kvData.size"
+          :image-url="kvData.url">
+        </imageUpload>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -15,13 +23,20 @@
   </div>
 </template>
 <script>
+import imageUpload from '@/lib/image-upload.vue';
+
 export default {
   data() {
     return {
+      kvData: {
+        size: [300, 300],
+        type: 'alone',
+        url: ''
+      },
       ruleForm: {
         name: '',
         intro: '',
-        kv: '',
+        kv: '测试',
         date2: '',
         delivery: false,
         type: [],
@@ -36,9 +51,15 @@ export default {
         intro: [
           { required: true, message: '请输入商品简介', trigger: 'blur' },
           { min: 3, max: 25, message: '长度在 3 到 25 个字符', trigger: 'blur' }
+        ],
+        kv: [
+          { required: true, message: 'KV不能为空', trigger: 'blur' }
         ]
       }
     };
+  },
+  components: {
+    imageUpload
   },
   methods: {
     // 提交表单
