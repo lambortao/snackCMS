@@ -7,18 +7,6 @@
       <el-form-item label="商品简介" prop="intro">
         <el-input type="textarea" v-model="ruleForm.intro" style="width: 300px;"></el-input>
       </el-form-item>
-      <el-form-item label="KV图" prop="kv">
-        <el-upload
-          id="uploadImg"
-          class="avatar-uploader"
-          action="http://server.zytao.cc/snackcms/admin.php/api/saveimages"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload">
-          <img v-if="ruleForm.kv" :src="ruleForm.kv" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
