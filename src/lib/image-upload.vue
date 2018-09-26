@@ -1,8 +1,13 @@
 <template>
   <div id="imageUpload">
+    <!-- 图片列表 -->
     <div class="image-list">
+      <!-- 单独的图片容器，每个图片有个独立的，单图只有一个，多图会自动添加 -->
       <div class="image-alone">
-
+        <div class="control"></div>
+        <input type="file">
+        <img src="" alt="">
+        <div class="bottom"></div>
       </div>
     </div>
   </div>
