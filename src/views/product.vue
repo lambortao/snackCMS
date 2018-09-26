@@ -5,19 +5,36 @@
         <el-input v-model="ruleForm.name" style="width: 300px;"></el-input>
       </el-form-item>
       <el-form-item label="商品简介" prop="intro">
-        <el-input type="textarea" v-model="ruleForm.intro" style="width: 300px;"></el-input>
+        <el-input v-model="ruleForm.intro" style="width: 300px;" placeholder="控制在十五个字内"></el-input>
       </el-form-item>
-      <el-form-item label="头图" prop="kv">
+      <el-form-item label="商品详情" prop="content">
+        <el-input type="textarea" v-model="ruleForm.content" style="width: 300px;"></el-input>
+      </el-form-item>
+      <el-form-item label="商品价格" prop="price">
+        <el-input-number v-model="ruleForm.price" :precision="1" :step="0.1" :max="100"></el-input-number>
+      </el-form-item>
+      <el-form-item label="商品库存" prop="stock">
+        <el-input-number v-model="ruleForm.stock" :step="1" :max="999"></el-input-number>
+      </el-form-item>
+      <el-form-item label="是否上架" prop="sell">
+        <el-switch
+          v-model="ruleForm.sell"
+          active-color="#13ce66"
+          inactive-color="#ff4949"
+          active-value="100"
+          inactive-value="0">
+        </el-switch>
+      </el-form-item>
+      <!-- <el-form-item label="头图" prop="kv">
         <imageUpload 
           v-model="ruleForm.kv" 
           :image-type="kvData.type"
           :image-size="kvData.size"
           :image-url="kvData.url">
         </imageUpload>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-        <el-button @click="resetForm('ruleForm')">重置</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')">提交商品</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -34,14 +51,13 @@ export default {
         url: ''
       },
       ruleForm: {
-        name: '',
-        intro: '',
-        kv: '测试',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
+        name: '番茄鸡蛋面',
+        intro: '测试内容',
+        // kv: '测试',
+        content: '测试内容',
+        price: 2.5,
+        stock: 1,
+        sell: false
       },
       rules: {
         name: [
@@ -52,9 +68,13 @@ export default {
           { required: true, message: '请输入商品简介', trigger: 'blur' },
           { min: 3, max: 25, message: '长度在 3 到 25 个字符', trigger: 'blur' }
         ],
-        kv: [
-          { required: true, message: 'KV不能为空', trigger: 'blur' }
-        ]
+        content: [
+          { required: true, message: '请输入商品详情', trigger: 'blur' },
+          { min: 3, max: 100, message: '长度在 3 到 100 个字符', trigger: 'blur' }
+        ],
+        // kv: [
+        //   { required: true, message: 'KV不能为空', trigger: 'blur' }
+        // ]
       }
     };
   },
@@ -72,10 +92,6 @@ export default {
           return false;
         }
       });
-    },
-    // 重置表单
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
     },
     // 图片上传完成后
     handleAvatarSuccess(res, file) {
