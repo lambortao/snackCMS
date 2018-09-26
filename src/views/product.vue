@@ -11,10 +11,10 @@
         <el-input type="textarea" v-model="ruleForm.content" style="width: 300px;"></el-input>
       </el-form-item>
       <el-form-item label="商品价格" prop="price">
-        <el-input-number v-model="ruleForm.price" :precision="1" :step="0.1" :max="100"></el-input-number>
+        <el-input-number v-model="ruleForm.price" :precision="1" :min="0.5" :step="0.1" :max="100"></el-input-number>
       </el-form-item>
       <el-form-item label="商品库存" prop="stock">
-        <el-input-number v-model="ruleForm.stock" :step="1" :max="999"></el-input-number>
+        <el-input-number v-model="ruleForm.stock" :step="1" :min="1" :max="999"></el-input-number>
       </el-form-item>
       <el-form-item label="是否上架" prop="sell">
         <el-switch
@@ -34,7 +34,7 @@
         </imageUpload>
       </el-form-item> -->
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">提交商品</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')" :loading="postLoading">提交商品</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -50,6 +50,7 @@ export default {
         type: 'alone',
         url: ''
       },
+      postLoading: false,
       ruleForm: {
         name: '番茄鸡蛋面',
         intro: '测试内容',
@@ -86,7 +87,12 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          this.postLoading = true;
+          // addProduct
+          this.$port('product/addProduct', this.ruleForm).then((res) => {
+            console.log(res);
+            this.postLoading = false;
+          })
         } else {
           console.log('error submit!!');
           return false;

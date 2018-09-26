@@ -11,9 +11,6 @@ export function __port(url, data) {
   return axios({
     url: `${Vue.urlHost}${url}`,
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8'
-    },
     data: JSON.stringify(data)
   }).then(res => {
     if (res.status === 200) {
