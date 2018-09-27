@@ -11,7 +11,7 @@ export function __port(url, data) {
   return axios({
     url: `${Vue.urlHost}${url}`,
     method: 'POST',
-    data: JSON.stringify(data)
+    params: data
   }).then(res => {
     if (res.status === 200) {
       return res.data;

@@ -41,7 +41,7 @@
 </template>
 <script>
 import imageUpload from '@/lib/image-upload.vue';
-
+import axios from 'axios';
 export default {
   data() {
     return {
