@@ -5,16 +5,6 @@
         <el-col :span="3">
           <el-button @click="addProduct()" style="width: 100%;" type="primary" plain icon="el-icon-circle-plus-outline">新增商品</el-button>
         </el-col>
-        <el-col :span="4">
-          <el-select v-model="value" placeholder="筛选商品">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-col>
         <el-col :span="4" :offset="13">
           <el-input prefix-icon="el-icon-search" v-model="input" placeholder="仅限商品"></el-input>
         </el-col>
@@ -56,9 +46,10 @@
           align="center">
           <template slot-scope="scope">
             <el-switch
-              v-model="scope.row.sell"
-              active-color="#13ce66"
-              inactive-color="#ff4949">
+              v-model="scope.row.sell" 
+              active-color="#13ce66" 
+              inactive-color="#ff4949" 
+              @change="shelf(scope.row.id, scope.row.sell)">
             </el-switch>
           </template>
         </el-table-column>
@@ -100,22 +91,6 @@ export default {
       loading: false,
       currentPage: 1,
       input: '',
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
       value: '',
       newProductList: [],
       newProductLength: 0
@@ -141,6 +116,20 @@ export default {
     },
     addProduct() {
       this.$router.push({path:'product/detail?id=123'});
+    },
+    shelf(index, row) {
+      this.$port('product/changeShelf', {
+        'shelf': row,
+        'id': index
+      }).then(res => {
+        if (res.status == 1) {
+          let msg = row ? '已上架' : '已下架';
+          this.$notify({
+            title: msg,
+            type: 'success'
+          });
+        }
+      })
     }
   }
 }
