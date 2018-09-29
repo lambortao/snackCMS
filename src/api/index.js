@@ -10,7 +10,7 @@ import Vue from 'vue';
 export function __port(url, data) {
   return axios({
     url: `${Vue.urlHost}${url}`,
-    method: 'POST',
+    method: 'post',
     params: data
   }).then(res => {
     if (res.status === 200) {

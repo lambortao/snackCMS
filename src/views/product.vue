@@ -42,6 +42,7 @@
 <script>
 import imageUpload from '@/lib/image-upload.vue';
 import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -88,10 +89,14 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.postLoading = true;
-          // addProduct
           this.$port('product/addProduct', this.ruleForm).then((res) => {
-            console.log(res);
-            this.postLoading = false;
+            if (res.status == 1) {
+              this.$message({
+                message: '商品添加成功！',
+                type: 'success'
+              });
+              this.postLoading = false;
+            }
           })
         } else {
           console.log('error submit!!');
