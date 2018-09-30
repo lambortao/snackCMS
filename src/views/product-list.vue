@@ -5,7 +5,7 @@
         <el-col :span="3">
           <el-button @click="addProduct()" style="width: 100%;" type="primary" plain icon="el-icon-circle-plus-outline">新增商品</el-button>
         </el-col>
-        <el-col :span="4" :offset="13">
+        <el-col :span="4" :offset="17">
           <el-input prefix-icon="el-icon-search" v-model="input" placeholder="仅限商品"></el-input>
         </el-col>
       </el-row>
@@ -68,7 +68,7 @@
           <template slot-scope="scope">
             <el-button plain size="small">改</el-button>
             <el-button plain size="small">顶</el-button>
-            <el-button plain size="small" type="danger">删</el-button>
+            <el-button plain size="small" type="danger" @click="delFun(scope.row.id)">删</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -130,6 +130,25 @@ export default {
           });
         }
       })
+    },
+    delFun(id) {
+      this.$confirm('确定删除该商品吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$port('product/delProduct', {
+          'id': id
+        }).then(res => {
+          if (res.status == 1) {
+            this.getProductList();
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+          }
+        });
+      }).catch();
     }
   }
 }
