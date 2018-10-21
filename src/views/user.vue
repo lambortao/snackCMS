@@ -26,7 +26,8 @@
         <el-table-column
           fixed
           type="index"
-          width="50">
+          align="center"
+          width="40">
         </el-table-column>
         <el-table-column
           prop="date"
