@@ -67,7 +67,8 @@
           align="center">
           <template slot-scope="scope">
             <el-button plain size="small">改</el-button>
-            <el-button plain size="small">顶</el-button>
+            <el-button plain size="small" @click="hotFun(scope.row.id, true)" v-if="scope.row.hot == 0">顶</el-button>
+            <el-button plain size="small" @click="hotFun(scope.row.id, false)" v-else class="hot">落</el-button>
             <el-button plain size="small" type="danger" @click="delFun(scope.row.id)">删</el-button>
           </template>
         </el-table-column>
@@ -149,6 +150,21 @@ export default {
           }
         });
       }).catch();
+    },
+    hotFun(id, bool) {
+      this.$port('product/hotProduct', {
+        'id': id,
+        'hot': bool,
+      }).then(res => {
+        if (res.status == 1) {
+          let msg = bool ? '已置顶' : '已取消置顶';
+          this.$notify({
+            title: msg,
+            type: 'success'
+          });
+          this.getProductList();
+        }
+      })
     }
   }
 }
@@ -160,5 +176,9 @@ section{
   padding: 20px 0;
   border-top: 1px solid $hr;
   border-bottom: 1px solid $hr;
+}
+.hot{
+  color: #f00;
+  border-color: #f00;
 }
 </style>
