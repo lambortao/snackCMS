@@ -25,14 +25,15 @@
           inactive-value="0">
         </el-switch>
       </el-form-item>
-      <!-- <el-form-item label="头图" prop="kv">
-        <imageUpload 
-          v-model="ruleForm.kv" 
-          :image-type="kvData.type"
-          :image-size="kvData.size"
-          :image-url="kvData.url">
-        </imageUpload>
-      </el-form-item> -->
+      <el-form-item label="是否置顶" prop="hot">
+        <el-switch
+          v-model="ruleForm.hot"
+          active-color="#13ce66"
+          inactive-color="#ff4949"
+          active-value="100"
+          inactive-value="0">
+        </el-switch>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')" :loading="postLoading">提交商品</el-button>
       </el-form-item>
@@ -53,13 +54,13 @@ export default {
       },
       postLoading: false,
       ruleForm: {
-        name: '番茄鸡蛋面',
-        intro: '测试内容',
-        // kv: '测试',
-        content: '测试内容',
-        price: 2.5,
+        name: '',
+        intro: '',
+        content: '',
+        price: 1,
         stock: 1,
-        sell: false
+        sell: false,
+        hot: false
       },
       rules: {
         name: [
@@ -73,17 +74,29 @@ export default {
         content: [
           { required: true, message: '请输入商品详情', trigger: 'blur' },
           { min: 3, max: 100, message: '长度在 3 到 100 个字符', trigger: 'blur' }
-        ],
-        // kv: [
-        //   { required: true, message: 'KV不能为空', trigger: 'blur' }
-        // ]
+        ]
       }
     };
   },
   components: {
     imageUpload
   },
+  created () {
+    this.getProduct();
+  },
   methods: {
+    // 获取产品详情
+    getProduct() {
+      let nowPageId = this.$route.params.id;
+      if (nowPageId != 'add') {
+        this.$port('product/detail', {
+          'id': nowPageId
+        }).then(res => {
+          this.ruleForm = res[0];
+          // console.log(res[0]);
+        });
+      }
+    },
     // 提交表单
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {

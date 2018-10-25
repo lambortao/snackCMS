@@ -117,11 +117,11 @@ export default {
     },
     // 进入商品详情页
     updateFun(id) {
-      this.$router.push({path: `product/detail?id=${id}`});
+      this.$router.push({path: `product/detail/${id}`});
     },
     // 新增商品
     addProduct() {
-      this.$router.push({path:'product/detail?id=123'});
+      this.$router.push({path:'product/detail/add'});
     },
     // 上架或者下架商品
     shelf(index, row) {

@@ -50,7 +50,7 @@ export default new Router({
           component: ProductList
         },
         {
-          path: 'product/detail',
+          path: 'product/detail/:id',
           name: '商品详情',
           component: Product
         },
