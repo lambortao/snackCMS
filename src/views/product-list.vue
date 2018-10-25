@@ -115,9 +115,11 @@ export default {
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
     },
+    // 新增商品
     addProduct() {
       this.$router.push({path:'product/detail?id=123'});
     },
+    // 上架或者下架商品
     shelf(index, row) {
       this.$port('product/changeShelf', {
         'shelf': row,
@@ -132,6 +134,7 @@ export default {
         }
       })
     },
+    // 删除商品
     delFun(id) {
       this.$confirm('确定删除该商品吗？', '提示', {
         confirmButtonText: '确定',
@@ -151,6 +154,7 @@ export default {
         });
       }).catch();
     },
+    // 置顶商品
     hotFun(id, bool) {
       this.$port('product/hotProduct', {
         'id': id,
