@@ -20,18 +20,14 @@
         <el-switch
           v-model="ruleForm.sell"
           active-color="#13ce66"
-          inactive-color="#ff4949"
-          active-value="100"
-          inactive-value="0">
+          inactive-color="#ff4949">
         </el-switch>
       </el-form-item>
       <el-form-item label="是否置顶" prop="hot">
         <el-switch
           v-model="ruleForm.hot"
           active-color="#13ce66"
-          inactive-color="#ff4949"
-          active-value="100"
-          inactive-value="0">
+          inactive-color="#ff4949">
         </el-switch>
       </el-form-item>
       <el-form-item>
@@ -59,7 +55,7 @@ export default {
         content: '',
         price: 1,
         stock: 1,
-        sell: false,
+        sell: true,
         hot: false
       },
       rules: {
@@ -92,8 +88,8 @@ export default {
         this.$port('product/detail', {
           'id': nowPageId
         }).then(res => {
-          this.ruleForm = res[0];
-          // console.log(res[0]);
+          this.ruleForm = res;
+          console.log(this.ruleForm.sell);
         });
       }
     },
