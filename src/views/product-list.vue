@@ -66,7 +66,7 @@
           width="200"
           align="center">
           <template slot-scope="scope">
-            <el-button plain size="small">改</el-button>
+            <el-button plain size="small" @click="updateFun(scope.row.id)">改</el-button>
             <el-button plain size="small" @click="hotFun(scope.row.id, true)" v-if="scope.row.hot == 0">顶</el-button>
             <el-button plain size="small" @click="hotFun(scope.row.id, false)" v-else class="hot">落</el-button>
             <el-button plain size="small" type="danger" @click="delFun(scope.row.id)">删</el-button>
@@ -114,6 +114,10 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+    },
+    // 进入商品详情页
+    updateFun(id) {
+      this.$router.push({path: `product/detail?id=${id}`});
     },
     // 新增商品
     addProduct() {
