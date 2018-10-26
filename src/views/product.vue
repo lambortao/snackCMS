@@ -97,11 +97,18 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          let apiUrl = 'product/updataProduct';
+          let doneMsg = '信息修改成功';
+          let nowPageId = this.$route.params.id;
+          if (nowPageId == 'add') {
+            apiUrl = 'product/addProduct';
+            doneMsg = '商品添加成功！'
+          }
           this.postLoading = true;
-          this.$port('product/addProduct', this.ruleForm).then((res) => {
+          this.$port(apiUrl, this.ruleForm).then((res) => {
             if (res.status == 1) {
               this.$message({
-                message: '商品添加成功！',
+                message: doneMsg,
                 type: 'success'
               });
               this.postLoading = false;
