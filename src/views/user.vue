@@ -66,7 +66,7 @@
           width="200"
           align="center">
           <template slot-scope="scope">
-            <el-button plain size="small" @click="rechargeFun(scope.row.id)">充值</el-button>
+            <el-button plain size="small" @click="rechargeFun(scope.row.nickName, scope.row.id)">充值</el-button>
             <el-button plain size="small" type="danger" @click="delUser(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
@@ -96,14 +96,6 @@ export default {
       input: '',
       value: '',
       userList: [],
-      tableData3: [{
-        date: '2016-05-03',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }]
     }
   },
   created () {
@@ -115,10 +107,42 @@ export default {
         this.userList = res;
       });
     },
-    // 充值
-    rechargeFun() {
-      // 充值用弹窗的形式展现
-    },  
+    // 充值按钮
+    rechargeFun(name, id) {
+      this.$prompt('请输入金额', `为${name}充值`, {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPattern: /^[0-9]*[1-9][0-9]*$/,
+        inputErrorMessage: '输入正确的金额'
+      }).then(({ value }) => {
+        this.apiRecharge(name, id, value);
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消充值'
+        });       
+      });
+    },
+    // 调用充值接口
+    apiRecharge(name, id, money) {
+      this.$confirm(`将为${name}充值${money}元`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$port('', {
+          userId: id,
+          amount: money
+        }).then(res => {
+          console.log(res);
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消充值'
+        });          
+      });
+    },
     // 删除用户
     delUser() {
 
