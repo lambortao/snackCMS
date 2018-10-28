@@ -2,24 +2,14 @@
   <div id="user">
     <header>
       <el-row :gutter="10">
-        <el-col :span="4">
-          <el-select v-model="value" placeholder="排列方式">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-col>
-        <el-col :span="4" :offset="16">
+        <el-col :span="4" :offset="20">
           <el-input prefix-icon="el-icon-search" v-model="input" placeholder="仅限用户"></el-input>
         </el-col>
       </el-row>
     </header>
     <section>
       <el-table
-        :data="tableData3"
+        :data="userList"
         style="width: 100%"
         border 
         stripe>
@@ -30,29 +20,55 @@
           width="40">
         </el-table-column>
         <el-table-column
-          prop="date"
-          label="日期">
+          prop="nickName"
+          label="昵称">
         </el-table-column>
         <el-table-column
-          prop="name"
-          label="姓名">
+          align="center"
+          width="150"
+          label="头像">
+          <template slot-scope="scope">
+            <img class="avatar-box" :src="scope.row.avatarUrl" alt="">
+          </template>
         </el-table-column>
         <el-table-column
-          prop="province"
-          label="省份">
+          prop="openid"
+          label="openid">
         </el-table-column>
         <el-table-column
-          prop="city"
-          label="市区">
+          prop="phoneNumber"
+          label="手机号">
         </el-table-column>
         <el-table-column
-          prop="address"
-          label="地址"
-          width="300">
+          width="280"
+          label="时间">
+          <template slot-scope="scope">
+            <p><b>首次注册时间：</b>{{scope.row.first_time}}</p>
+            <p><b>最后登录时间：</b>{{scope.row.last_time}}</p>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="zip"
-          label="邮编">
+          prop="over_money"
+          label="余额"
+          align="center"
+          width="100">
+        </el-table-column>
+        <el-table-column
+          label="消费记录"
+          width="150"
+          align="center">
+          <template slot-scope="scope">
+            <el-button plain size="small">点击查看</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="操作"
+          width="200"
+          align="center">
+          <template slot-scope="scope">
+            <el-button plain size="small" @click="rechargeFun(scope.row.id)">充值</el-button>
+            <el-button plain size="small" type="danger" @click="delUser(scope.row.id)">删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
     </section>
@@ -78,67 +94,10 @@ export default {
       currentPage3: 5,
       currentPage4: 4,
       input: '',
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
       value: '',
+      userList: [],
       tableData3: [{
         date: '2016-05-03',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-02',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-08',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-06',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-07',
         name: '王小虎',
         province: '上海',
         city: '普陀区',
@@ -147,7 +106,23 @@ export default {
       }]
     }
   },
+  created () {
+    this.getUserList();
+  },
   methods: {
+    getUserList() {
+      this.$port('user/getUserList').then(res => {
+        this.userList = res;
+      });
+    },
+    // 充值
+    rechargeFun() {
+      // 充值用弹窗的形式展现
+    },  
+    // 删除用户
+    delUser() {
+
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
@@ -164,5 +139,9 @@ section{
   padding: 20px 0;
   border-top: 1px solid $hr;
   border-bottom: 1px solid $hr;
+}
+.avatar-box{
+  width: 80px;
+  height: 80px;
 }
 </style>
