@@ -130,7 +130,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$port('', {
+        this.$port('saving/savingNow', {
           userId: id,
           amount: money
         }).then(res => {
