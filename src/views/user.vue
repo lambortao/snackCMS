@@ -52,8 +52,10 @@
           prop="over_money"
           label="余额"
           align="center"
-          width="100"
-          style="color: #f00;">
+          width="100">
+          <template slot-scope="scope">
+            <p style="color: #F56C6C; font-weight: bold;">￥{{scope.row.over_money}}</p>
+          </template>
         </el-table-column>
         <el-table-column
           label="消费记录"
