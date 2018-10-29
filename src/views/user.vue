@@ -138,6 +138,7 @@ export default {
       }).then(() => {
         this.$port('saving/savingNow', {
           userId: id,
+          nickName: name,
           amount: money
         }).then(res => {
           if (res.status == 1) {
