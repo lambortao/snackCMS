@@ -154,8 +154,24 @@ export default {
       });
     },
     // 删除用户
-    delUser() {
-
+    delUser(id) {
+      this.$confirm('确定删除该用户吗？此操作会删除该用户账户，且不可逆转！', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$port('user/delUser', {
+          'id': id
+        }).then(res => {
+          if (res.status == 1) {
+            this.getUserList();
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+          }
+        });
+      }).catch();
     },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
