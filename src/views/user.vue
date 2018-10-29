@@ -138,7 +138,13 @@ export default {
           userId: id,
           amount: money
         }).then(res => {
-          console.log(res);
+          if (res.status == 1) {
+            this.getUserList();
+            this.$message({
+              message: `成功为${name}充值${money}元，余额为${res.over_money}元`,
+              type: 'success'
+            });
+          }
         });
       }).catch(() => {
         this.$message({
