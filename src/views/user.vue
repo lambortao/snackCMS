@@ -12,7 +12,8 @@
         :data="userList"
         style="width: 100%"
         border 
-        stripe>
+        stripe
+        v-loading="loading">
         <el-table-column
           fixed
           type="index"
@@ -21,12 +22,12 @@
         </el-table-column>
         <el-table-column
           prop="nickName"
-          label="昵称">
+          label="微信昵称">
         </el-table-column>
         <el-table-column
           align="center"
-          width="150"
-          label="头像">
+          width="110"
+          label="微信头像">
           <template slot-scope="scope">
             <img class="avatar-box" :src="scope.row.avatarUrl" alt="">
           </template>
@@ -51,7 +52,8 @@
           prop="over_money"
           label="余额"
           align="center"
-          width="100">
+          width="100"
+          style="color: #f00;">
         </el-table-column>
         <el-table-column
           label="消费记录"
@@ -96,6 +98,7 @@ export default {
       input: '',
       value: '',
       userList: [],
+      loading: true
     }
   },
   created () {
@@ -105,6 +108,7 @@ export default {
     getUserList() {
       this.$port('user/getUserList').then(res => {
         this.userList = res;
+        this.loading = false;
       });
     },
     // 充值按钮
