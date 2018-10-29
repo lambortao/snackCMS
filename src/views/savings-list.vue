@@ -15,36 +15,35 @@
         :data="savingsList"
         style="width: 100%"
         border 
-        stripe>
+        stripe
+        v-loading="loading">
         <el-table-column
           fixed
           type="index"
-          width="50">
+          width="40"
+          align="center">
         </el-table-column>
         <el-table-column
-          prop="date"
-          label="日期">
+          prop="user_name"
+          label="操作人">
         </el-table-column>
         <el-table-column
-          prop="name"
-          label="姓名">
+          prop="money"
+          label="充值金额">
+          <template slot-scope="scope">
+            <p style="color: #F56C6C; font-weight: bold;">￥{{scope.row.money}}</p>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="province"
-          label="省份">
+          prop="real_money"
+          label="实时余额">
+          <template slot-scope="scope">
+            <p style="color: #F56C6C; font-weight: bold;">￥{{scope.row.real_money}}</p>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="city"
-          label="市区">
-        </el-table-column>
-        <el-table-column
-          prop="address"
-          label="地址"
-          width="300">
-        </el-table-column>
-        <el-table-column
-          prop="zip"
-          label="邮编">
+          prop="time"
+          label="操作时间">
         </el-table-column>
       </el-table>
     </section>
@@ -71,6 +70,7 @@ export default {
       currentPage4: 4,
       input: '',
       value: '',
+      loading: true,
       savingsList: []
     }
   },
@@ -81,6 +81,7 @@ export default {
     getSavingList() {
       this.$port('saving/getSavingList').then(res => {
         this.savingsList = res;
+        this.loading = false;
       });
     },
     handleSizeChange(val) {
