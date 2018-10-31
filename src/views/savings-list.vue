@@ -25,7 +25,7 @@
         </el-table-column>
         <el-table-column
           prop="user_name"
-          label="操作人">
+          label="被充值人昵称">
         </el-table-column>
         <el-table-column
           prop="money"
