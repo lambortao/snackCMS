@@ -79,7 +79,7 @@
           align="center"
           width="150">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.arrive" type="primary" plain>确认到货</el-button>
+            <el-button v-if="scope.row.arrive" @click="confirmArrivals(scope.row.id, scope.row.pro_id, scope.row.num)" type="primary" plain>确认到货</el-button>
             <p v-else>已到货</p>
           </template>
         </el-table-column>
@@ -138,6 +138,32 @@ export default {
     },
     newPurchase() {
       this.$router.push({path:'purchase/detail'});
+    },
+    confirmArrivals(id, pro_id, num) {
+      this.$confirm('是否确认已经到货？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$port('purchase/confirmArrivals', {
+          'id': id,
+          'pro_id': pro_id,
+          'num': num
+        }).then(res => {
+          if (res.status == 1) {
+            this.getPurchaseList();
+            this.$message({
+              message: '已确认到货，采购数已并入库存',
+              type: 'success'
+            });
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消确认'
+        });          
+      });
     },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
