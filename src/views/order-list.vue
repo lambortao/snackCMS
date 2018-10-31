@@ -121,8 +121,8 @@ export default {
     // 筛选用户
     filterUser(orderList) {
       orderList.forEach(element => {
-        console.log(element.user_name);
-        console.log(element.user_id);
+        // console.log(element.user_name);
+        // console.log(element.user_id);
       });
     },
     handleSizeChange(val) {

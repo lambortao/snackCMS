@@ -1,12 +1,12 @@
 <template>
   <div class="nav">
     <nav>
-       <div v-for="(item, key, $index) in navData" @click="selectTop = `${($index * 50)}px`" :key="item">
+       <div v-for="(item, key, $index) in navData" @click="selectTop = $index" :key="item.id">
           <router-link tag="p" :to="{path: '/home/' + key}">
             <i :style="{backgroundImage: 'url('+require(`../assets/${item.icon}`) + ')'}"></i>{{item.name}}
           </router-link>
        </div>
-      <span class="select" :style="{transform: `translateY(${selectTop})`}"></span>
+      <span class="select" :style="{transform: `translateY(${selectTop * 50}px)`}"></span>
     </nav>
   </div>
 </template>
@@ -19,43 +19,62 @@ export default {
         'data': {
           name: '数据',
           icon: 'icon/6.png',
-          url: 'data'
+          url: 'data',
+          position: 0
         },
         'order': {
           name: '订单',
           icon: 'icon/1.png',
-          url: 'order'
+          url: 'order',
+          position: 1
         },
         'product': {
           name: '商品',
           icon: 'icon/7.png',
-          url: 'product'
+          url: 'product',
+          position: 2
         },
         'user': {
           name: '用户',
           icon: 'icon/5.png',
-          url: 'user'
+          url: 'user',
+          position: 3
         },
         'savings': {
           name: '充值',
           icon: 'icon/2.png',
-          url: 'savings'
+          url: 'savings',
+          position: 4
         },
         'purchase': {
           name: '采购',
           icon: 'icon/3.png',
-          url: 'purchase'
+          url: 'purchase',
+          position: 5
         },
         'admin': {
           name: '设置',
           icon: 'icon/4.png',
-          url: 'admin'
+          url: 'admin',
+          position: 6
         }
       }
     }
   },
   created () {
-    console.log(this.$router);
+    this.getRoutePosition();
+  },
+  methods: {
+    getRoutePosition() {
+      let nowRouteAll = this.$route.path;
+      let nowRoute = nowRouteAll.split('/');
+      if (this.navData[nowRoute[nowRoute.length - 1]]) {
+        this.selectTop = this.navData[nowRoute[nowRoute.length - 1]]['position'];
+      }
+    }
+  },
+  beforeRouteUpdate(to, from, next) {
+    console.log(from);
   }
 }
 </script>
