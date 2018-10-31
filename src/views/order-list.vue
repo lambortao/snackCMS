@@ -111,7 +111,6 @@ export default {
   methods: {
     getOrderList() {
       this.$port('order/getOrderList').then(res => {
-        console.log(res);
         this.orderList = res;
         this.loading = false;
       });

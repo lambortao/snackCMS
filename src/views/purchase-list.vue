@@ -22,39 +22,66 @@
     </header>
     <section>
       <el-table
-        :data="tableData3"
+        :data="pruchaseList"
         style="width: 100%"
         border 
         stripe>
         <el-table-column
           fixed
           type="index"
-          width="50">
+          width="40"
+          align="center">
         </el-table-column>
         <el-table-column
-          prop="date"
-          label="日期">
+          prop="pro_name"
+          label="商品名">
         </el-table-column>
         <el-table-column
-          prop="name"
-          label="姓名">
+          prop="source"
+          label="进货渠道">
         </el-table-column>
         <el-table-column
-          prop="province"
-          label="省份">
+          prop="time"
+          label="采购日期">
         </el-table-column>
         <el-table-column
-          prop="city"
-          label="市区">
+          prop="num"
+          label="进货数量">
         </el-table-column>
         <el-table-column
-          prop="address"
-          label="地址"
-          width="300">
+          label="购入单价">
+          <template slot-scope="scope">
+            <p style="color: #F56C6C; font-weight: bold;">￥{{ scope.row.buy_price }}</p>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="zip"
-          label="邮编">
+          label="预售单价">
+          <template slot-scope="scope">
+            <p style="color: #F56C6C; font-weight: bold;">￥{{ scope.row.sell_price }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="单品利润">
+          <template slot-scope="scope">
+            <p>价格：￥{{ ((scope.row.sell_price * 10) - (scope.row.buy_price * 10)) / 10 }}元</p>
+            <p>百分比：{{ (((scope.row.sell_price * 10) - (scope.row.buy_price * 10)) * 10) / scope.row.sell_price }}%</p>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="单次进货利润">
+          <template slot-scope="scope">
+            <p>￥{{ (((scope.row.sell_price * 10) - (scope.row.buy_price * 10)) / 10) * scope.row.num }}元</p>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="arrive"
+          label="是否到货"
+          align="center"
+          width="150">
+          <template slot-scope="scope">
+            <el-button v-if="scope.row.arrive" type="primary" plain>确认到货</el-button>
+            <p v-else>已到货</p>
+          </template>
         </el-table-column>
       </el-table>
     </section>
@@ -97,59 +124,18 @@ export default {
         label: '北京烤鸭'
       }],
       value: '',
-      tableData3: [{
-        date: '2016-05-03',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-02',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-08',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-06',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-07',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }]
+      pruchaseList: []
     }
   },
+  created () {
+    this.getPurchaseList();
+  },
   methods: {
+    getPurchaseList() {
+      this.$port('purchase/getPurchaseList').then(res => {
+        this.pruchaseList = res;
+      });
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
