@@ -62,10 +62,10 @@ export default {
     }
   },
   created () {
-    this.getRoutePosition();
+    this.setRoutePosition();
   },
   methods: {
-    getRoutePosition() {
+    setRoutePosition() {
       let nowRouteAll = this.$route.path;
       let nowRoute = nowRouteAll.split('/');
       if (this.navData[nowRoute[nowRoute.length - 1]]) {
