@@ -3,7 +3,7 @@
     <header>
       <el-row :gutter="5">
         <el-col :span="3">
-          <el-button style="width: 100%;" type="primary" plain icon="el-icon-circle-plus-outline">新增进货单</el-button>
+          <el-button @click="newPurchase()" style="width: 100%;" type="primary" plain icon="el-icon-circle-plus-outline">新增进货单</el-button>
         </el-col>
         <el-col :span="4">
           <el-select v-model="value" placeholder="筛选商品">
@@ -135,6 +135,9 @@ export default {
       this.$port('purchase/getPurchaseList').then(res => {
         this.pruchaseList = res;
       });
+    },
+    newPurchase() {
+      this.$router.push({path:'purchase/detail'});
     },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
