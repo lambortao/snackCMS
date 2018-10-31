@@ -12,56 +12,53 @@
             </el-option>
           </el-select>
         </el-col>
-        <el-col :span="4">
-          <el-select v-model="value" placeholder="选择商品">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-col>
-        <el-col :span="4" :offset="12">
+        <el-col :span="4" :offset="16">
           <el-input prefix-icon="el-icon-search" v-model="input" placeholder="仅限用户和商品"></el-input>
         </el-col>
       </el-row>
     </header>
     <section>
       <el-table
-        :data="tableData3"
+        :data="orderList"
         style="width: 100%"
         border 
         stripe>
         <el-table-column
           fixed
           type="index"
-          width="50">
+          width="40"
+          align="center">
         </el-table-column>
         <el-table-column
-          prop="date"
-          label="日期">
+          prop="user_name"
+          label="购买人">
         </el-table-column>
         <el-table-column
-          prop="name"
-          label="姓名">
+          prop="pro_name"
+          label="商品名">
         </el-table-column>
         <el-table-column
-          prop="province"
-          label="省份">
+          prop="pro_Price"
+          label="价格">
+          <template slot-scope="scope">
+            <p style="color: #F56C6C; font-weight: bold;">￥{{ scope.row.pro_Price }}</p>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="city"
-          label="市区">
+          prop="start_time"
+          label="购买日期">
         </el-table-column>
         <el-table-column
-          prop="address"
-          label="地址"
+          prop="end_time"
+          label="结算日期"
           width="300">
         </el-table-column>
         <el-table-column
-          prop="zip"
-          label="邮编">
+          prop="order_type"
+          label="是否预付费">
+          <template slot-scope="scope">
+            <p>{{ scope.row.order_type ? '是' : '否' }}</p>
+          </template>
         </el-table-column>
       </el-table>
     </section>
@@ -82,7 +79,6 @@
 export default {
   data() {
     return {
-      
       currentPage1: 5,
       currentPage2: 5,
       currentPage3: 5,
@@ -105,62 +101,21 @@ export default {
         label: '北京烤鸭'
       }],
       value: '',
-      tableData3: [{
-        date: '2016-05-03',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-02',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-08',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-06',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-07',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }]
+      orderList: [],
+      loading: true
     }
   },
   created () {
-    
+    this.getOrderList();
   },
   methods: {
+    getOrderList() {
+      this.$port('order/getOrderList').then(res => {
+        console.log(res);
+        this.orderList = res;
+        this.loading = false;
+      });
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
