@@ -103,7 +103,8 @@ export default {
       }],
       value: '',
       orderList: [],
-      loading: true
+      loading: true,
+      userList: []
     }
   },
   created () {
@@ -114,6 +115,14 @@ export default {
       this.$port('order/getOrderList').then(res => {
         this.orderList = res;
         this.loading = false;
+        this.filterUser(this.orderList);
+      });
+    },
+    // 筛选用户
+    filterUser(orderList) {
+      orderList.forEach(element => {
+        console.log(element.user_name);
+        console.log(element.user_id);
       });
     },
     handleSizeChange(val) {
