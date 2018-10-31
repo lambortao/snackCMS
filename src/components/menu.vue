@@ -1,7 +1,7 @@
 <template>
   <div class="nav">
     <nav>
-       <div v-for="(item, key, $index) in navData" @click="selectTop = `${($index * 50)}px`">
+       <div v-for="(item, key, $index) in navData" @click="selectTop = `${($index * 50)}px`" :key="item">
           <router-link tag="p" :to="{path: '/home/' + key}">
             <i :style="{backgroundImage: 'url('+require(`../assets/${item.icon}`) + ')'}"></i>{{item.name}}
           </router-link>
