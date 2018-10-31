@@ -3,19 +3,23 @@
     <header>
       <el-row :gutter="10">
         <el-col :span="4">
-          <hpSelect 
-          v-model="selectValue.key"
-          :placeholder-content="selectValue.placeholder"
-          :select-content="selectValue.data"></hpSelect>
+          <el-select v-model="userSelect.value" placeholder="选择用户" @change="changeUser()">
+            <el-option
+              v-for="item in userSelect.options"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
         </el-col>
         <el-col :span="4" :offset="16">
-          <el-input prefix-icon="el-icon-search" v-model="input" placeholder="仅限用户和商品"></el-input>
+          <el-input prefix-icon="el-icon-search" v-model="findContent" placeholder="仅限用户和商品"></el-input>
         </el-col>
       </el-row>
     </header>
     <section>
       <el-table
-        :data="orderList"
+        :data="dataList.show"
         style="width: 100%"
         border 
         stripe
@@ -63,77 +67,146 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage4"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="30"
+        :current-page="page.nowPage" 
+        :page-sizes="page.pageNumberArr"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="400">
+        :total="page.total">
       </el-pagination>
     </footer>
   </div>
 </template>
 <script>
-import hpSelect from '@/lib/hp-select.vue';
-
 export default {
   data() {
     return {
-      currentPage1: 5,
-      currentPage2: 5,
-      currentPage3: 5,
-      currentPage4: 4,
-      input: '',
-      selectValue: {
-        key: '',
-        placeholder: '选择用户',
-        data: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
+      findContent: '',
+      loading: true,
+      /**
+       * 翻页
+       * 参数一：初始的显示的页码
+       * 参数二：总数据量
+       * 参数三：每页显示的数据量
+       * 参数四：当前页面显示的数据量，默认是每页显示数据量的第一个
+       */
+      page: {
+        nowPage: 1,
+        total: 0,
+        pageNumberArr: [20, 40, 60, 100],
+        nowPageNumber: ''
+      },
+      /**
+       * 筛选
+       * 参数一：选中的数据
+       * 参数二：全部数据
+       */
+      userSelect: {
+        value: '',
+        options: [{
+          id: 0,
+          name: '全部用户'
         }]
       },
-      orderList: [],
-      loading: true,
-      userList: []
+      /**
+       * 数据列表
+       * all - 从后台返回来的全部的数据
+       * select - 下拉列表筛选后的数据
+       * show - 当前页面显示的数据
+       * all > select > show
+       * 页面上显示的始终都是show的数据
+       * 
+       * 这里讲一下实现逻辑，默认进来下拉筛选的数据等于全部数据，当前页面显示的数据是根据默认的翻页数据处理后显示的数据
+       * 下拉筛选修改后会重置翻页数据，并重新计算数据总数
+       */
+      dataList: {
+        all: [],
+        select: [],
+        show: []
+      }
     }
-  },
-  components: {
-    hpSelect
   },
   created () {
     this.getOrderList();
+    this.page.nowPageNumber = this.page.pageNumberArr[0];
   },
   methods: {
+    // 获取订单列表
     getOrderList() {
       this.$port('order/getOrderList').then(res => {
-        this.orderList = res;
+        // 去除加载loading
         this.loading = false;
-        this.filterUser(this.orderList);
+        // 获取到全部数据之后，默认情况下筛选的数据就是全部数据
+        this.dataList.all = res;
+        this.dataList.select = this.dataList.all;
+        // 计算数据总量
+        this.page.total = this.dataList.select.length;
+        // 初始计算当前一共有多少用户
+        this.filterUser(this.dataList.select);
+        // 初始重置翻页函数
+        this.pageFun(0, this.page.nowPageNumber);
       });
     },
-    // 筛选用户
+    // 把数据中的用户筛选出来，显示到选择框
     filterUser(orderList) {
+      let nowUserArr = [];
       orderList.forEach(element => {
-        // console.log(element.user_name);
-        // console.log(element.user_id);
+        if (nowUserArr.indexOf(element.user_id) == -1) {
+          nowUserArr.push(element.user_id);
+          let nowUser = {
+            id: element.user_id,
+            name: element.user_name
+          }
+          this.userSelect.options.push(nowUser);
+        }
       });
     },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+    /**
+     * 分页函数
+     * 第一个参数是页码，第二个参数是单页显示的数量
+     */
+    pageFun(pagePosition, pageNumber) {
+      // 当前页面要显示的数据头 = 当前位置页码 * 单页显示的数量
+      pagePosition = pagePosition * pageNumber;
+      // 当前页面要显示的数据尾 = 数据头 + 单页显示的数量
+      pageNumber = pagePosition + pageNumber;
+      let lsPageData = this.dataList.select.slice(pagePosition, pageNumber);
+      // 清空显示的数据再重新赋值
+      this.dataList.show = [];
+      this.dataList.show = lsPageData;
     },
+    // 用户筛选
+    changeUser() {
+      let lsOrder = [];
+      // 如果选择的是0，代表选择的是全部
+      if (this.userSelect.value == 0) {
+        this.dataList.select = this.dataList.all;
+      } else {
+        // 否则就进行筛选
+        this.dataList.all.forEach(element => {
+          if (element.user_id == this.userSelect.value) {
+            lsOrder.push(element);
+          }
+        });
+        this.dataList.select = [];
+        this.dataList.select = lsOrder;
+      }
+      // 用户筛选后需要重新计算总数据量和重置翻页函数
+      this.page.total = this.dataList.select.length;
+      this.pageFun(0, this.page.nowPageNumber);
+    },
+    // 修改每页显示数量
+    handleSizeChange(val) {
+      // 循环查找一下，当前选择的数据量是变量中的第几个，然后通过变量进行赋值
+      // 数量修改完毕后，重置翻页函数
+      this.page.pageNumberArr.forEach((element, key) => {
+        if (val == element) {
+          this.page.nowPageNumber = this.page.pageNumberArr[key];
+          this.pageFun(0, this.page.nowPageNumber);
+        }
+      });      
+    },
+    // 跳转到第几页
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      this.pageFun(val - 1, this.page.nowPageNumber);
     }
   }
 }
