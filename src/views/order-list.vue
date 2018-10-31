@@ -22,7 +22,8 @@
         :data="orderList"
         style="width: 100%"
         border 
-        stripe>
+        stripe
+        v-loading="loading">
         <el-table-column
           fixed
           type="index"

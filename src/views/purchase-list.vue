@@ -25,7 +25,8 @@
         :data="pruchaseList"
         style="width: 100%"
         border 
-        stripe>
+        stripe
+        v-loading="loading">
         <el-table-column
           fixed
           type="index"
@@ -124,7 +125,8 @@ export default {
         label: '北京烤鸭'
       }],
       value: '',
-      pruchaseList: []
+      pruchaseList: [],
+      loading: true
     }
   },
   created () {
@@ -134,13 +136,14 @@ export default {
     getPurchaseList() {
       this.$port('purchase/getPurchaseList').then(res => {
         this.pruchaseList = res;
+        this.loading = false;
       });
     },
     newPurchase() {
       this.$router.push({path:'purchase/detail'});
     },
     confirmArrivals(id, pro_id, num) {
-      this.$confirm('是否确认已经到货？', '提示', {
+      this.$confirm('是否确认已经到货？确认后采购数将并入库存', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
