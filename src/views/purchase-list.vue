@@ -133,15 +133,18 @@ export default {
     this.getPurchaseList();
   },
   methods: {
+    // 获取采购列表
     getPurchaseList() {
       this.$port('purchase/getPurchaseList').then(res => {
         this.pruchaseList = res;
         this.loading = false;
       });
     },
+    // 进入新建采购单
     newPurchase() {
       this.$router.push({path:'purchase/detail'});
     },
+    // 确认到货
     confirmArrivals(id, pro_id, num) {
       this.$confirm('是否确认已经到货？确认后采购数将并入库存', '提示', {
         confirmButtonText: '确定',
