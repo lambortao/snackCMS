@@ -6,7 +6,7 @@
           <el-button @click="addProduct()" style="width: 100%;" type="primary" plain icon="el-icon-circle-plus-outline">新增商品</el-button>
         </el-col>
         <el-col :span="4" :offset="17">
-          <el-input prefix-icon="el-icon-search" v-model="input" placeholder="仅限商品"></el-input>
+          <el-input prefix-icon="el-icon-search" v-model="findContent" placeholder="仅限商品"></el-input>
         </el-col>
       </el-row>
     </header>
@@ -93,10 +93,7 @@ export default {
   data() {
     return {
       loading: false,
-      currentPage: 1,
-      input: '',
-      value: '',
-      newProductLength: 0,
+      findContent: '',
       /**
        * 翻页
        * 参数一：初始的显示的页码

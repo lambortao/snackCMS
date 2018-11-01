@@ -16,7 +16,7 @@
           </el-select>
         </el-col>
         <el-col :span="4" :offset="13">
-          <el-input prefix-icon="el-icon-search" v-model="input" placeholder="仅限商品"></el-input>
+          <el-input prefix-icon="el-icon-search" v-model="findContent" placeholder="仅限商品"></el-input>
         </el-col>
       </el-row>
     </header>
@@ -104,10 +104,7 @@
 export default {
   data() {
     return {
-      currentPage4: 4,
-      input: '',
-      value: '',
-      pruchaseList: [],
+      findContent: '',
       loading: true,
       /**
        * 翻页

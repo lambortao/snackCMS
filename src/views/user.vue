@@ -3,7 +3,7 @@
     <header>
       <el-row :gutter="10">
         <el-col :span="4" :offset="20">
-          <el-input prefix-icon="el-icon-search" v-model="input" placeholder="仅限用户"></el-input>
+          <el-input prefix-icon="el-icon-search" v-model="findContent" placeholder="仅限用户"></el-input>
         </el-col>
       </el-row>
     </header>
@@ -94,8 +94,7 @@
 export default {
   data() {
     return {
-      input: '',
-      value: '',
+      findContent: '',
       loading: true,
       /**
        * 翻页
