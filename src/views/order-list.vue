@@ -159,21 +159,6 @@ export default {
         }
       });
     },
-    /**
-     * 分页函数
-     * 第一个参数是当前页码，第二个参数是单页显示的数量
-     */
-    pageFun(pagePosition, pageNumber) {
-      // 当前页面要显示的数据头 = 当前页码 * 单页显示的数量
-      pagePosition = pagePosition * pageNumber;
-      // 当前页面要显示的数据尾 = 当前页面要显示的数据头 + 单页显示的数量
-      pageNumber = pagePosition + pageNumber;
-      // 然后截取当前页面要显示的数据头到当前页面要显示的数据尾之间的数据
-      let lsPageData = this.dataList.select.slice(pagePosition, pageNumber);
-      // 清空显示的数据再重新赋值
-      this.dataList.show = [];
-      this.dataList.show = lsPageData;
-    },
     // 用户筛选
     changeUser() {
       let lsOrder = [];
@@ -193,6 +178,21 @@ export default {
       // 用户筛选后需要重新计算总数据量和重置翻页函数
       this.page.total = this.dataList.select.length;
       this.pageFun(0, this.page.nowPageNumber);
+    },
+    /**
+     * 分页函数
+     * 第一个参数是当前页码，第二个参数是单页显示的数量
+     */
+    pageFun(pagePosition, pageNumber) {
+      // 当前页面要显示的数据头 = 当前页码 * 单页显示的数量
+      pagePosition = pagePosition * pageNumber;
+      // 当前页面要显示的数据尾 = 当前页面要显示的数据头 + 单页显示的数量
+      pageNumber = pagePosition + pageNumber;
+      // 然后截取当前页面要显示的数据头到当前页面要显示的数据尾之间的数据
+      let lsPageData = this.dataList.select.slice(pagePosition, pageNumber);
+      // 清空显示的数据再重新赋值
+      this.dataList.show = [];
+      this.dataList.show = lsPageData;
     },
     // 修改每页显示数量
     handleSizeChange(val) {
