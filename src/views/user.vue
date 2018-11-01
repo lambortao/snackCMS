@@ -94,7 +94,6 @@ export default {
     return {
       input: '',
       value: '',
-      userList: [],
       loading: true,
       /**
        * 翻页
