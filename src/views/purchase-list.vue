@@ -29,9 +29,11 @@
         v-loading="loading">
         <el-table-column
           fixed
-          type="index"
           width="40"
           align="center">
+          <template slot-scope="scope">
+            <p>{{scope.row.id}}</p>
+          </template>
         </el-table-column>
         <el-table-column
           prop="pro_name"
@@ -104,22 +106,6 @@ export default {
     return {
       currentPage4: 4,
       input: '',
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
       value: '',
       pruchaseList: [],
       loading: true,

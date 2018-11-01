@@ -26,9 +26,11 @@
         v-loading="loading">
         <el-table-column
           fixed
-          type="index"
           width="40"
           align="center">
+          <template slot-scope="scope">
+            <p>{{scope.row.id}}</p>
+          </template>
         </el-table-column>
         <el-table-column
           prop="user_name"
