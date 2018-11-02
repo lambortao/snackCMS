@@ -74,6 +74,7 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="page.total">
       </el-pagination>
+      
     </footer>
   </div>
 </template>
