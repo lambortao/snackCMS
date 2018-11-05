@@ -29,6 +29,15 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
+  background: {
+    image: url('https://placeimg.com/640/480/any');
+    size: cover;
+    position: center;
+  }
+}
+h3{
+  font-size: 1.75em;
+  color: #303133;
 }
 input{
   display: block;
