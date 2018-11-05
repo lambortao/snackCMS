@@ -3,8 +3,8 @@
     <section class="login-box">
       <h3>{{ title }}</h3>
       <div class="input-box">
-        <input type="text" name="userName" id="userName" placeholder="输入登录名">
-        <input type="password" name="password" id="password" placeholder="输入登录密码">
+        <input type="text" name="userName" id="userName" placeholder="输入登录名" v-model="login.userName">
+        <input type="password" name="password" id="password" placeholder="输入登录密码" v-model="login.password">
         <input type="button" :value="button">
       </div>
     </section>
@@ -15,7 +15,11 @@ export default {
   data () {
     return {
       title: 'WELCOME',
-      button: '登录'
+      button: '登录',
+      login: {
+        userName: '',
+        password: ''
+      }
     }
   }
 }
@@ -47,6 +51,7 @@ input{
   border: none;
   border-radius: 5px;
   outline: none;
+  text-align: center;
 }
 input[type='text'],
 input[type='password']{
