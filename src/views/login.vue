@@ -1,7 +1,7 @@
 <template>
   <div id="login">
     <section class="login-box">
-      <h3>{{ title }}</h3>
+      <figure class="logo"><img src="@/assets/logo.png" alt="LOGO"></figure>
       <div class="input-box">
         <input type="text" name="userName" id="userName" placeholder="输入登录名" v-model="login.userName">
         <input type="password" name="password" id="password" placeholder="输入登录密码" v-model="login.password">
@@ -34,9 +34,15 @@ export default {
   align-items: center;
   text-align: center;
   background: {
-    image: url('https://placeimg.com/640/480/any');
-    size: cover;
-    position: center;
+    color: #ededed;
+  }
+}
+figure.logo{
+  width: 160px;
+  margin: 0 auto 20px auto;
+
+  img{
+    width: 100%;
   }
 }
 h3{
@@ -48,14 +54,15 @@ input{
   width: 260px;
   height: 40px;
   margin: 10px 0;
-  border: none;
+  border: 1px solid #eee;
   border-radius: 5px;
   outline: none;
-  text-align: center;
+  color: #000;
+  font-size: 1.25em;
 }
 input[type='text'],
 input[type='password']{
-  padding: 0 5px;
+  padding: 0 10px;
   border: 1px solid #E4E7ED;
 }
 input[type='button']{
