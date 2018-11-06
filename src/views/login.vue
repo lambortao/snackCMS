@@ -3,9 +3,10 @@
     <section class="login-box">
       <figure class="logo"><img src="@/assets/logo.png" alt="LOGO"></figure>
       <div class="input-box">
-        <input type="text" name="userName" id="userName" placeholder="输入登录名" v-model="login.userName">
-        <input type="password" name="password" id="password" placeholder="输入登录密码" v-model="login.password">
+        <input :class="{error: errorBool}" type="text" name="userName" id="userName" placeholder="输入登录名" v-model="login.userName">
+        <input :class="{error: errorBool}" type="password" name="password" id="password" :placeholder="title" v-model="login.password">
         <input type="button" :value="button">
+        <b></b>
       </div>
     </section>
   </div>
@@ -14,8 +15,9 @@
 export default {
   data () {
     return {
-      title: 'WELCOME',
+      title: '输入登录密码',
       button: '登录',
+      errorBool: false,
       login: {
         userName: '',
         password: ''
@@ -59,6 +61,7 @@ input{
   outline: none;
   color: #000;
   font-size: 1.25em;
+  transition: all 300ms;
 }
 input[type='text'],
 input[type='password']{
@@ -69,10 +72,14 @@ input[type='button']{
   background-color: #409EFF;
   color: #fff;
   cursor: pointer;
-  transition: all 300ms;
+  transition: all 100ms;
 
   &:active{
     transform: scale(0.95);
   }
+}
+input.error{
+  color: #F56C6C;
+  border-color: #F56C6C;
 }
 </style>
