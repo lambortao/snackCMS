@@ -3,9 +3,9 @@
     <section class="login-box">
       <figure class="logo"><img src="@/assets/logo.png" alt="LOGO"></figure>
       <div class="input-box">
-        <input :class="{error: errorBool}" type="text" name="userName" id="userName" placeholder="输入登录名" v-model="login.userName">
-        <input :class="{error: errorBool}" type="password" name="password" id="password" :placeholder="title" v-model="login.password">
-        <input type="button" :value="button">
+        <input :class="{error: errorBool}" type="text" name="userName" id="userName" :placeholder="urnContent" v-model="login.userName" @focus="errorBool = false">
+        <input :class="{error: errorBool}" type="password" name="password" id="password" :placeholder="pwdContent" v-model="login.password" @focus="errorBool = false">
+        <input type="button" :value="button" @click="signIn()">
         <b></b>
       </div>
     </section>
@@ -15,13 +15,27 @@
 export default {
   data () {
     return {
-      title: '输入登录密码',
+      urnContent: '输入登录名',
+      pwdContent: '输入登录密码',
       button: '登录',
       errorBool: false,
       login: {
         userName: '',
         password: ''
       }
+    }
+  },
+  methods: {
+    signIn() {
+      if (this.login.userName == '' || this.login.password == '') {
+        this.urnContent = '用户名不能为空';
+        this.pwdContent = '登录密码不能为空';
+        this.errorBool = true;
+        return;
+      }
+      this.$port('user/signin', this.login).then(res => {
+        
+      });
     }
   }
 }
