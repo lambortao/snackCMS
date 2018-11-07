@@ -36,7 +36,7 @@ export default {
       }
       this.siginLoading = true;
       this.button = '登陆中...';
-      this.$port('user/signin', this.login).then(res => {
+      this.$port('admin/signin', this.login).then(res => {
         
       });
     }
