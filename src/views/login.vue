@@ -3,8 +3,23 @@
     <section class="login-box">
       <figure class="logo"><img src="@/assets/logo.png" alt="LOGO"></figure>
       <div class="input-box">
-        <input :class="{error: errorBool}" type="text" name="userName" id="userName" :placeholder="urnContent" v-model="login.userName" @focus="errorBool = false">
-        <input :class="{error: errorBool}" type="password" name="password" id="password" :placeholder="pwdContent" v-model="login.password" @focus="errorBool = false">
+        <input 
+          :class="{error: errorBool}" 
+          type="text" 
+          name="userName" 
+          id="userName" 
+          :placeholder="urnContent" 
+          v-model="login.userName" 
+          @focus="errorBool = false">
+        <input 
+          :class="{error: errorBool}" 
+          type="password" 
+          name="password" 
+          id="password" 
+          :placeholder="pwdContent" 
+          v-model="login.password" 
+          @focus="errorBool = false"
+          @keyup.enter="signIn()">
         <el-button class="sigin" type="primary" @click="signIn()" :loading="siginLoading">{{ button }}</el-button>
         <b></b>
       </div>
@@ -37,7 +52,17 @@ export default {
       this.siginLoading = true;
       this.button = '登陆中...';
       this.$port('admin/signin', this.login).then(res => {
-        
+        if (res.status == 1) {
+          this.button = '登陆成功';
+          this.siginLoading = false;
+          this.$message({
+            message: '欢迎回来~',
+            type: 'success'
+          });
+          setTimeout(()=>{
+            this.$router.push({path:'home/data/'});
+          }, 500);
+        }
       });
     }
   }
