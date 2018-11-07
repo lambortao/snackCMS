@@ -5,7 +5,7 @@
       <div class="input-box">
         <input :class="{error: errorBool}" type="text" name="userName" id="userName" :placeholder="urnContent" v-model="login.userName" @focus="errorBool = false">
         <input :class="{error: errorBool}" type="password" name="password" id="password" :placeholder="pwdContent" v-model="login.password" @focus="errorBool = false">
-        <input type="button" :value="button" @click="signIn()">
+        <el-button class="sigin" type="primary" @click="signIn()" :loading="siginLoading">{{ button }}</el-button>
         <b></b>
       </div>
     </section>
@@ -19,6 +19,7 @@ export default {
       pwdContent: '输入登录密码',
       button: '登录',
       errorBool: false,
+      siginLoading: false,
       login: {
         userName: '',
         password: ''
@@ -33,6 +34,8 @@ export default {
         this.errorBool = true;
         return;
       }
+      this.siginLoading = true;
+      this.button = '登陆中...';
       this.$port('user/signin', this.login).then(res => {
         
       });
@@ -65,7 +68,8 @@ h3{
   font-size: 1.75em;
   color: #303133;
 }
-input{
+input[type='text'],
+input[type='password']{
   display: block;
   width: 260px;
   height: 40px;
@@ -76,13 +80,11 @@ input{
   color: #000;
   font-size: 1.25em;
   transition: all 300ms;
-}
-input[type='text'],
-input[type='password']{
   padding: 0 10px;
   border: 1px solid #E4E7ED;
 }
-input[type='button']{
+.sigin{
+  width: 100%;
   background-color: #409EFF;
   color: #fff;
   cursor: pointer;
