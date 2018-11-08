@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/vuex/store'
+import ElementUI from 'element-ui';
 let Home = () => import('@/views/home');
 let Login = () => import('@/views/login'); // 登录
 let ProductList = () => import('@/views/product-list');
@@ -96,14 +97,44 @@ const router = new Router({
   linkActiveClass: 'active'
 });
 
+// 清除session
+// sessionStorage.removeItem('siginInfor');
+
 router.beforeResolve((to, from, next) => {
-  // 只有检测到下面这个数组中的路由切换时才会更改菜单暗块的定位
+  // 路由监听，修改菜单定位块的位置
+  // 只有检测到下面这个数组中的路由切换时才会更改菜单定位块的定位
   const routeArr = ['data', 'dataHome', 'orderList', 'productList', 'userList', 'savingsList', 'purchaseList', 'admin'];
   let routePos = routeArr.indexOf(to.name);
   if (routePos > -1) {
     routePos = routePos == 0 ? 1 : routePos;
     store.commit('setMenuPos', routePos);
   }
+  
+  // 监听登录
+  if (to.name != 'Login') {
+    // 检查用户登录状态是否存在
+    let siginInfor = JSON.parse(sessionStorage.getItem('siginInfor'));
+    if (siginInfor) {
+      // 获取session中的时间和当前时间的时间差
+      let nowTime = (new Date()).valueOf();
+      let siginDuration = nowTime - siginInfor.timestamp;
+      // 允许登录时间为30分钟
+      let expiredTime = 30 * 60 * 1000;
+      // 登录超时则需要重新登录
+      if (siginDuration >= expiredTime) {
+        setTimeout(()=> {
+          router.push({path:'/'});
+        }, 0);
+      }
+    } else {
+      // 没有检测到登录状态
+      setTimeout(()=> {
+        router.push({path:'/'});
+      }, 0);
+    }
+    // 检查用户登录是否过期
+  }
+
   next();
 })
 

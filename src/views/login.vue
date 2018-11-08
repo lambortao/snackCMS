@@ -41,6 +41,9 @@ export default {
       }
     }
   },
+  created () {
+    // sessionStorage.removeItem('siginInfor');
+  },
   methods: {
     signIn() {
       if (this.login.userName == '' || this.login.password == '') {
@@ -62,6 +65,14 @@ export default {
           setTimeout(()=>{
             this.$router.push({path:'home/data/'});
           }, 500);
+
+          // 设置登录seccion
+          let nowTime = (new Date()).valueOf();
+          let str = {
+            timestamp: nowTime,
+            userName: this.login.userName
+          }
+          sessionStorage.setItem('siginInfor', JSON.stringify(str));
         }
       });
     }
