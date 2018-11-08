@@ -111,28 +111,33 @@ router.beforeResolve((to, from, next) => {
   }
   
   // 监听登录
-  if (to.name != 'Login') {
-    // 检查用户登录状态是否存在
-    let siginInfor = JSON.parse(sessionStorage.getItem('siginInfor'));
-    if (siginInfor) {
-      // 获取session中的时间和当前时间的时间差
-      let nowTime = (new Date()).valueOf();
-      let siginDuration = nowTime - siginInfor.timestamp;
-      // 允许登录时间为30分钟
-      let expiredTime = 30 * 60 * 1000;
-      // 登录超时则需要重新登录
-      if (siginDuration >= expiredTime) {
-        setTimeout(()=> {
-          router.push({path:'/'});
-        }, 0);
-      }
-    } else {
-      // 没有检测到登录状态
+  // 检查用户登录状态是否存在
+  let siginInfor = JSON.parse(sessionStorage.getItem('siginInfor'));
+  console.log(siginInfor);
+  if (siginInfor) {
+    // 获取session中的时间和当前时间的时间差
+    let nowTime = (new Date()).valueOf();
+    let siginDuration = nowTime - siginInfor.timestamp;
+    // 允许登录时间为30分钟
+    let expiredTime = 30 * 60 * 1000;
+    // 登录超时则需要重新登录
+    if (siginDuration >= expiredTime) {
       setTimeout(()=> {
         router.push({path:'/'});
       }, 0);
+    } else {
+      // 登录没有超时，且当前目录是登录页面的话则进入数据页
+      if (to.name == 'Login') {
+        setTimeout(()=> {
+          router.push({path:'/home/data'});
+        }, 0);
+      }
     }
-    // 检查用户登录是否过期
+  } else {
+    // 没有检测到登录状态
+    setTimeout(()=> {
+      router.push({path:'/'});
+    }, 0);
   }
 
   next();
