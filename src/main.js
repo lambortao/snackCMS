@@ -6,6 +6,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import App from './App'
 import router from './router'
 import axios from 'axios';
+import store from './vuex/store'
 
 // 调取公用函数内的接口函数
 import { __port, __del, __hot } from '@/api'
@@ -24,6 +25,7 @@ Vue.urlHost = 'http://server.zytao.cc/snackcms/admin.php/';
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App),
   components: { App },
   template: '<App/>'

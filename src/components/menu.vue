@@ -73,8 +73,11 @@ export default {
       }
     }
   },
-  beforeRouteUpdate(to, from, next) {
-    console.log(from);
+  computed: {
+    getFooter () {
+      return this.$store.getters.getMenuPos;
+      // this.selectTop = this.$store.getters.getMenuPos;
+    }
   }
 }
 </script>

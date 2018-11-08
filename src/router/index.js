@@ -16,7 +16,7 @@ let Data = () => import('@/views/data'); // 首页 - 数据统计显示
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -30,67 +30,80 @@ export default new Router({
       children: [
         {
           path: '/data',
-          name: '首页',
+          name: 'data',
           alias: '/',
           component: Data
         },
         {
           path: 'data',
-          name: '数据统计',
+          name: 'dataHome',
           component: Data
         },
         {
           path: 'admin',
-          name: '管理员页面',
+          name: 'admin',
           component: Admin
         },
         {
           path: 'product',
-          name: '商品列表',
+          name: 'productList',
           component: ProductList
         },
         {
           path: 'product/detail/:id',
-          name: '商品详情',
+          name: 'product',
           component: Product
         },
         {
           path: 'user',
-          name: '用户列表',
+          name: 'userList',
           component: User
         },
         {
           path: 'order',
-          name: 'order',
+          name: 'orderList',
           component: OrderList
         },
         {
           path: 'order/detail',
-          name: '订单详情',
+          name: 'orderDetail',
           component: Order
         },
         {
           path: 'purchase',
-          name: '采购列表',
+          name: 'purchaseList',
           component: PurchaseList
         },
         {
           path: 'purchase/detail',
-          name: '采购详情',
+          name: 'purchaseDetail',
           component: Purchase
         },
         {
           path: 'savings',
-          name: '储蓄列表',
+          name: 'savingsList',
           component: SavingsList
         },
         {
           path: 'savings/detail',
-          name: '储蓄详情',
+          name: 'savingsDetail',
           component: Savings
         },
       ]
     }
   ],
   linkActiveClass: 'active'
+});
+
+import store from '@/vuex/store'
+
+router.beforeResolve((to, from, next) => {
+  const routeArr = ['data', 'dataHome', 'orderList', 'productList', 'userList', 'savingsList', 'purchaseList', 'admin'];
+  let routePos = routeArr.indexOf(to.name);
+  if (routePos > -1) {
+    store.commit('setMenuPos', routePos);
+  }
+  next();
 })
+
+export default router;
