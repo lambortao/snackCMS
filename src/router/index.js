@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '@/vuex/store'
 let Home = () => import('@/views/home');
 let Login = () => import('@/views/login'); // 登录
 let ProductList = () => import('@/views/product-list');
@@ -95,9 +96,8 @@ const router = new Router({
   linkActiveClass: 'active'
 });
 
-import store from '@/vuex/store'
-
 router.beforeResolve((to, from, next) => {
+  // 只有检测到下面这个数组中的路由切换时才会更改菜单暗块的定位
   const routeArr = ['data', 'dataHome', 'orderList', 'productList', 'userList', 'savingsList', 'purchaseList', 'admin'];
   let routePos = routeArr.indexOf(to.name);
   if (routePos > -1) {

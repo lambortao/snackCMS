@@ -1,12 +1,12 @@
 <template>
   <div class="nav">
     <nav>
-       <div v-for="(item, key, $index) in navData" @click="selectTop = $index" :key="item.id">
+       <div v-for="(item, key) in navData" :key="item.id">
           <router-link tag="p" :to="{path: '/home/' + key}">
             <i :style="{backgroundImage: 'url('+require(`../assets/${item.icon}`) + ')'}"></i>{{item.name}}
           </router-link>
        </div>
-      <span class="select" :style="{transform: `translateY(${selectTop * 50}px)`}"></span>
+      <span class="select" :style="{transform: `translateY(${(getFooter - 1) * 50}px)`}"></span>
     </nav>
   </div>
 </template>
@@ -14,7 +14,6 @@
 export default {
   data () {
     return {
-      selectTop: 0,
       navData: {
         'data': {
           name: '数据',
@@ -61,22 +60,9 @@ export default {
       }
     }
   },
-  created () {
-    this.setRoutePosition();
-  },
-  methods: {
-    setRoutePosition() {
-      let nowRouteAll = this.$route.path;
-      let nowRoute = nowRouteAll.split('/');
-      if (this.navData[nowRoute[nowRoute.length - 1]]) {
-        this.selectTop = this.navData[nowRoute[nowRoute.length - 1]]['position'];
-      }
-    }
-  },
   computed: {
     getFooter () {
       return this.$store.getters.getMenuPos;
-      // this.selectTop = this.$store.getters.getMenuPos;
     }
   }
 }
