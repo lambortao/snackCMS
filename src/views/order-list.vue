@@ -49,18 +49,30 @@
         </el-table-column>
         <el-table-column
           prop="start_time"
-          label="购买日期">
+          label="购买日期"
+          width="200">
         </el-table-column>
         <el-table-column
           prop="end_time"
           label="结算日期"
-          width="300">
+          width="200">
         </el-table-column>
         <el-table-column
           prop="order_type"
+          width="120"
+          align="center"
           label="是否预付费">
           <template slot-scope="scope">
             <p>{{ scope.row.order_type ? '是' : '否' }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="操作"
+          width="100"
+          align="center">
+          <template slot-scope="scope">
+            <el-button v-if="scope.row.end_time == null" plain size="small">结算</el-button>
+            <el-button v-else disabled plain size="small">已结算</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -74,7 +86,11 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="page.total">
       </el-pagination>
-      <p v-if="wjs.show" style="color: #F56C6C;font-size: 1.25em;font-weight: bold;">未结算金额：￥{{wjs.money}}</p>
+      <div v-if="wjs.show" class="wjs">
+        <p style="color: #F56C6C;font-size: 1.25em;font-weight: bold;">未结算金额：￥{{wjs.money}}</p>
+        <el-button v-if="wjs.money == 0" disabled plain size="small">已全部结算</el-button>
+        <el-button v-else plain size="small">一键结算</el-button>
+      </div>
     </footer>
   </div>
 </template>
@@ -240,5 +256,13 @@ section{
 footer{
   display: flex;
   justify-content: space-between;
+  align-items: center;
+
+  .wjs{
+    p{
+      display: inline-block;
+      margin-right: 20px;
+    }
+  }
 }
 </style>
