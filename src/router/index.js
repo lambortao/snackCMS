@@ -101,6 +101,7 @@ router.beforeResolve((to, from, next) => {
   const routeArr = ['data', 'dataHome', 'orderList', 'productList', 'userList', 'savingsList', 'purchaseList', 'admin'];
   let routePos = routeArr.indexOf(to.name);
   if (routePos > -1) {
+    routePos = routePos == 0 ? 1 : routePos;
     store.commit('setMenuPos', routePos);
   }
   next();
