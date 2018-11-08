@@ -74,7 +74,7 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="page.total">
       </el-pagination>
-      
+      <p v-if="wjs.show" style="color: #F56C6C;font-size: 1.25em;font-weight: bold;">未结算金额：￥{{wjs.money}}</p>
     </footer>
   </div>
 </template>
@@ -82,6 +82,10 @@
 export default {
   data() {
     return {
+      wjs: {
+        show: false,
+        money: 0
+      },
       findContent: '',
       loading: true,
       /**
@@ -167,6 +171,7 @@ export default {
       let lsOrder = [];
       // 如果选择的是0，代表选择的是全部
       if (this.userSelect.value == 0) {
+        this.wjs.show = false;
         this.dataList.select = this.dataList.all;
       } else {
         // 否则就进行筛选
@@ -177,6 +182,15 @@ export default {
         });
         this.dataList.select = [];
         this.dataList.select = lsOrder;
+
+        // 计算当前用户的未结算金额
+        this.wjs.money = 0;
+        this.dataList.select.forEach(element => {
+          if (!element.end_time) {
+            this.wjs.money += parseFloat(element.pro_Price);
+          }
+        });
+        this.wjs.show = true;
       }
       // 用户筛选后需要重新计算总数据量和重置翻页函数
       this.page.total = this.dataList.select.length;
@@ -222,5 +236,9 @@ section{
   padding: 20px 0;
   border-top: 1px solid $hr;
   border-bottom: 1px solid $hr;
+}
+footer{
+  display: flex;
+  justify-content: space-between;
 }
 </style>
