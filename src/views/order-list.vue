@@ -71,7 +71,7 @@
           width="100"
           align="center">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.end_time == null" plain size="small">结算</el-button>
+            <el-button v-if="scope.row.end_time == null" plain size="small" @click="settlement(scope.row.id, scope.row.pro_Price, scope.row.user_name)">结算</el-button>
             <el-button v-else disabled plain size="small">已结算</el-button>
           </template>
         </el-table-column>
@@ -89,7 +89,7 @@
       <div v-if="wjs.show" class="wjs">
         <p style="color: #F56C6C;font-size: 1.25em;font-weight: bold;">未结算金额：￥{{wjs.money}}</p>
         <el-button v-if="wjs.money == 0" disabled plain size="small">已全部结算</el-button>
-        <el-button v-else plain size="small">一键结算</el-button>
+        <el-button v-else plain size="small" @click="settlement()">一键结算</el-button>
       </div>
     </footer>
   </div>
@@ -100,7 +100,8 @@ export default {
     return {
       wjs: {
         show: false,
-        money: 0
+        money: 0,
+        name: ''
       },
       findContent: '',
       loading: true,
@@ -203,6 +204,7 @@ export default {
         this.wjs.money = 0;
         this.dataList.select.forEach(element => {
           if (!element.end_time) {
+            this.wjs.name = element.user_name;
             this.wjs.money += parseFloat(element.pro_Price);
           }
         });
@@ -241,6 +243,40 @@ export default {
     // 跳转到第几页
     handleCurrentChange(val) {
       this.pageFun(val - 1, this.page.nowPageNumber);
+    },
+    // 结算
+    settlement(orderId, money, name) {
+      let orderList = [];
+      let orderMoney = 0;
+      let userName = '';
+      if (orderId) {
+        orderList.push(orderId);
+        orderMoney = money;
+        userName = name;
+      } else {
+        this.dataList.select.forEach(element => {
+          if (!element.end_time) {
+            orderList.push(element.id);
+          }
+        });
+        orderMoney = this.wjs.money;
+        userName = this.wjs.name;
+      }
+
+      this.$confirm(`将为${userName}结算${orderMoney}元`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$port('order/settlement', orderList).then(res => {
+          console.log(res);
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消结算'
+        });          
+      });
     }
   }
 }
