@@ -89,7 +89,7 @@
       <div v-if="wjs.show" class="wjs">
         <p style="color: #F56C6C;font-size: 1.25em;font-weight: bold;">未结算金额：￥{{wjs.money}}</p>
         <el-button v-if="wjs.money == 0" disabled plain size="small">已全部结算</el-button>
-        <el-button v-else plain size="small" @click="settlement()">一键结算</el-button>
+        <el-button v-else plain size="small" @click="settlement()">全部结算</el-button>
       </div>
     </footer>
   </div>
@@ -167,11 +167,16 @@ export default {
         this.filterUser(this.dataList.select);
         // 初始重置翻页函数
         this.pageFun(0, this.page.nowPageNumber);
+        this.changeUser();
       });
     },
     // 把数据中的用户筛选出来，显示到选择框
     filterUser(orderList) {
       let nowUserArr = [];
+      this.userSelect.options = [{
+        id: 0,
+        name: '全部用户'
+      }];
       orderList.forEach(element => {
         if (nowUserArr.indexOf(element.user_id) == -1) {
           nowUserArr.push(element.user_id);
@@ -271,7 +276,13 @@ export default {
         this.$port('order/settlement', {
           orderList: orderArr
         }).then(res => {
-          console.log(res);
+          if (res.status == 1) {
+            this.getOrderList();
+            this.$message({
+              message: `成功为${userName}结算${orderMoney}元`,
+              type: 'success'
+            });
+          }
         });
       }).catch(() => {
         this.$message({
