@@ -246,17 +246,17 @@ export default {
     },
     // 结算
     settlement(orderId, money, name) {
-      let orderList = [];
+      let orderArr = [];
       let orderMoney = 0;
       let userName = '';
       if (orderId) {
-        orderList.push(orderId);
+        orderArr.push(orderId);
         orderMoney = money;
         userName = name;
       } else {
         this.dataList.select.forEach(element => {
           if (!element.end_time) {
-            orderList.push(element.id);
+            orderArr.push(element.id);
           }
         });
         orderMoney = this.wjs.money;
@@ -268,7 +268,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$port('order/settlement', orderList).then(res => {
+        this.$port('order/settlement', {
+          orderList: orderArr
+        }).then(res => {
           console.log(res);
         });
       }).catch(() => {
