@@ -122,6 +122,7 @@ router.beforeResolve((to, from, next) => {
     let expiredTime = 30 * 60 * 1000;
     // 登录超时则需要重新登录
     if (siginDuration >= expiredTime) {
+      sessionStorage.removeItem('siginInfor');
       setTimeout(()=> {
         router.push({path:'/'});
       }, 0);
