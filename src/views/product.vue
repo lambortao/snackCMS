@@ -89,7 +89,6 @@ export default {
           'id': nowPageId
         }).then(res => {
           this.ruleForm = res;
-          console.log(this.ruleForm.sell);
         });
       }
     },

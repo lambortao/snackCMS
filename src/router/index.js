@@ -113,7 +113,7 @@ router.beforeResolve((to, from, next) => {
   // 监听登录
   // 检查用户登录状态是否存在
   let siginInfor = JSON.parse(sessionStorage.getItem('siginInfor'));
-  console.log(siginInfor);
+  
   if (siginInfor) {
     // 获取session中的时间和当前时间的时间差
     let nowTime = (new Date()).valueOf();
