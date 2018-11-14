@@ -106,7 +106,7 @@ export default {
       page: {
         nowPage: 1,
         total: 0,
-        pageNumberArr: [20, 40, 60, 100],
+        pageNumberArr: [8, 20, 60],
         nowPageNumber: ''
       },
       /**
