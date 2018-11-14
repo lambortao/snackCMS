@@ -14,7 +14,7 @@
         <el-input-number v-model="ruleForm.price" :precision="1" :min="0.5" :step="0.1" :max="100"></el-input-number>
       </el-form-item>
       <el-form-item label="商品库存" prop="stock">
-        <el-input-number v-model="ruleForm.stock" :step="1" :min="1" :max="999"></el-input-number>
+        <el-input-number v-model="ruleForm.stock" :step="1" :min="0" :max="999"></el-input-number>
       </el-form-item>
       <el-form-item label="是否上架" prop="sell">
         <el-switch
