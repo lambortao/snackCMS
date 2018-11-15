@@ -2,7 +2,10 @@
   <div id="user">
     <header>
       <el-row :gutter="10">
-        <el-col :span="4" :offset="20">
+        <el-col :span="2">
+          <reloadPage @reloadpage="getUserList"></reloadPage>
+        </el-col>
+        <el-col :span="4" :offset="18">
           <el-input prefix-icon="el-icon-search" v-model="findContent" placeholder="仅限用户"></el-input>
         </el-col>
       </el-row>
@@ -91,6 +94,7 @@
   </div>
 </template>
 <script>
+import reloadPage from '@/lib/reload-page';
 export default {
   data() {
     return {
@@ -129,6 +133,9 @@ export default {
   created () {
     this.getUserList();
     this.page.nowPageNumber = this.page.pageNumberArr[0];
+  },
+  components: {
+    reloadPage
   },
   methods: {
     getUserList() {

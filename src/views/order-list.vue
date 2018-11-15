@@ -3,7 +3,7 @@
     <header>
       <el-row :gutter="10">
         <el-col :span="4">
-          <el-select v-model="userSelect.value" placeholder="选择用户" @change="changeUser()">
+          <el-select style="width: 100%" v-model="userSelect.value" placeholder="选择用户" @change="changeUser()">
             <el-option
               v-for="item in userSelect.options"
               :key="item.id"
@@ -12,7 +12,10 @@
             </el-option>
           </el-select>
         </el-col>
-        <el-col :span="4" :offset="16">
+        <el-col :span="2">
+          <reloadPage @reloadpage="getOrderList"></reloadPage>
+        </el-col>
+        <el-col :span="4" :offset="14">
           <el-input prefix-icon="el-icon-search" v-model="findContent" placeholder="仅限用户和商品"></el-input>
         </el-col>
       </el-row>
@@ -95,6 +98,8 @@
   </div>
 </template>
 <script>
+import reloadPage from '@/lib/reload-page';
+
 export default {
   data() {
     return {
@@ -147,6 +152,9 @@ export default {
         show: []
       }
     }
+  },
+  components: {
+    reloadPage
   },
   created () {
     this.getOrderList();

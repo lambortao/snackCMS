@@ -2,11 +2,8 @@
   <div id="savingsList">
     <header>
       <el-row :gutter="10">
-        <el-col :span="2">
-          <el-button style="width: 100%;" type="primary" plain icon="el-icon-circle-plus-outline">充值</el-button>
-        </el-col>
         <el-col :span="4">
-          <el-select v-model="userSelect.value" placeholder="选择用户" @change="changeUser()">
+          <el-select style="width: 100%;" v-model="userSelect.value" placeholder="选择用户" @change="changeUser()">
             <el-option
               v-for="item in userSelect.options"
               :key="item.id"
@@ -14,6 +11,9 @@
               :value="item.id">
             </el-option>
           </el-select>
+        </el-col>
+        <el-col :span="2">
+          <reloadPage @reloadpage="getSavingList"></reloadPage>
         </el-col>
         <el-col :span="4" :offset="14">
           <el-input prefix-icon="el-icon-search" v-model="findContent" placeholder="仅限用户"></el-input>
@@ -70,6 +70,8 @@
   </div>
 </template>
 <script>
+import reloadPage from '@/lib/reload-page';
+
 export default {
   data() {
     return {
@@ -117,6 +119,9 @@ export default {
         show: []
       }
     }
+  },
+  components: {
+    reloadPage
   },
   created() {
     this.getSavingList();

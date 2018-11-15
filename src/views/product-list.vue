@@ -5,7 +5,10 @@
         <el-col :span="3">
           <el-button @click="addProduct()" style="width: 100%;" type="primary" plain icon="el-icon-circle-plus-outline">新增商品</el-button>
         </el-col>
-        <el-col :span="4" :offset="17">
+        <el-col :span="2">
+          <reloadPage @reloadpage="getProductList"></reloadPage>
+        </el-col>
+        <el-col :span="4" :offset="15">
           <el-input prefix-icon="el-icon-search" v-model="findContent" placeholder="仅限商品"></el-input>
         </el-col>
       </el-row>
@@ -89,6 +92,8 @@
   </div>
 </template>
 <script>
+import reloadPage from '@/lib/reload-page';
+
 export default {
   data() {
     return {
@@ -123,6 +128,9 @@ export default {
         show: []
       }
     }
+  },
+  components: {
+    reloadPage
   },
   created () {
     this.getProductList();
