@@ -51,11 +51,17 @@ export default {
           url: 'purchase',
           position: 5
         },
+        'sms': {
+          name: '短信',
+          icon: 'icon/8.png',
+          url: 'sms',
+          position: 6
+        },
         'admin': {
           name: '设置',
           icon: 'icon/4.png',
           url: 'admin',
-          position: 6
+          position: 7
         }
       }
     }

@@ -15,6 +15,7 @@ let Savings = () => import('@/views/savings'); // 储蓄详情页
 let User = () => import('@/views/user'); // 用户列表页
 let Admin = () => import('@/views/admin'); // 管理员控制页
 let Data = () => import('@/views/data'); // 首页 - 数据统计显示
+let smsList = () => import('@/views/sms'); // 短信
 
 Vue.use(Router)
 
@@ -87,6 +88,11 @@ const router = new Router({
           component: SavingsList
         },
         {
+          path: 'sms',
+          name: 'smsList',
+          component: smsList
+        },
+        {
           path: 'savings/detail',
           name: 'savingsDetail',
           component: Savings
@@ -103,7 +109,7 @@ const router = new Router({
 router.beforeResolve((to, from, next) => {
   // 路由监听，修改菜单定位块的位置
   // 只有检测到下面这个数组中的路由切换时才会更改菜单定位块的定位
-  const routeArr = ['data', 'dataHome', 'orderList', 'productList', 'userList', 'savingsList', 'purchaseList', 'admin'];
+  const routeArr = ['data', 'dataHome', 'orderList', 'productList', 'userList', 'savingsList', 'purchaseList', 'smsList', 'admin'];
   let routePos = routeArr.indexOf(to.name);
   if (routePos > -1) {
     routePos = routePos == 0 ? 1 : routePos;
