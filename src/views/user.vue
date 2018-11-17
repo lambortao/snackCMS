@@ -6,7 +6,11 @@
           <reloadPage @reloadpage="getUserList"></reloadPage>
         </el-col>
         <el-col :span="4" :offset="18">
-          <el-input prefix-icon="el-icon-search" v-model="findContent" placeholder="仅限用户"></el-input>
+          <el-input 
+            prefix-icon="el-icon-search" 
+            v-model="findContent" 
+            placeholder="仅限用户名"
+            @keyup.enter.native="findUser()"></el-input>
         </el-col>
       </el-row>
     </header>
@@ -138,6 +142,20 @@ export default {
     reloadPage
   },
   methods: {
+    findUser() {
+      if (this.findContent != '') {
+        this.$port('user/findUser', {
+          nickName: this.findContent
+        }).then(res => {
+          this.dataList.all = res.data;
+          this.page.total = this.dataList.show.length;
+          this.pageFun(0, this.page.nowPageNumber);
+        })
+      } else {
+        this.getUserList();
+        this.page.nowPageNumber = this.page.pageNumberArr[0];
+      }
+    },
     getUserList() {
       this.$port('user/getUserList').then(res => {
         this.loading = false;
