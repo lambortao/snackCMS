@@ -23,8 +23,12 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="code_id"
+          width="210"
           label="短信ID">
+          <template slot-scope="scope">
+            <p v-if="scope.row.code_id">{{ scope.row.code_id }}</p>
+            <p v-else style="color: #F56C6C;font-weight: bold;">发送失败</p>
+          </template>
         </el-table-column>
         <el-table-column
           prop="content"
@@ -32,10 +36,12 @@
         </el-table-column>
         <el-table-column
           prop="time"
+          width="160"
           label="发送时间">
         </el-table-column>
         <el-table-column
-          label="发送结果">
+          width="160"
+          label="反馈结果">
           <template slot-scope="scope">
             <p v-if="scope.row.callback_code == 0" style="color: #409EFF;font-weight: bold;">{{ scope.row.text }}</p>
             <p v-else style="color: #F56C6C;font-weight: bold;">{{ scope.row.text }}</p>
