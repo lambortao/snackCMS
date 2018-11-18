@@ -157,15 +157,17 @@ export default {
     // 获取采购列表
     getPurchaseList() {
       this.$port('purchase/getPurchaseList').then(res => {
-        this.dataList.all = res;
-        this.dataList.select = this.dataList.all;
         this.loading = false;
-        // 计算数据总量
-        this.page.total = this.dataList.select.length;
-        // 初始计算当前一共有多少用户
-        this.filterUser(this.dataList.select);
-        // 初始重置翻页函数
-        this.pageFun(0, this.page.nowPageNumber);
+        if (res) {
+          this.dataList.all = res;
+          this.dataList.select = this.dataList.all;
+          // 计算数据总量
+          this.page.total = this.dataList.select.length;
+          // 初始计算当前一共有多少用户
+          this.filterUser(this.dataList.select);
+          // 初始重置翻页函数
+          this.pageFun(0, this.page.nowPageNumber);
+        }
       });
     },
     // 进入新建采购单
