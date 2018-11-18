@@ -22,6 +22,7 @@
             v-model="findContent" 
             placeholder="仅限用户和商品"
             @keyup.enter.native="findOrder()"
+            @clear="findClear()"
             ></el-input>
         </el-col>
       </el-row>
@@ -181,7 +182,7 @@ export default {
             this.page.total = this.dataList.show.length;
             this.pageFun(0, this.page.nowPageNumber);
             this.$message({
-              message: `找到${this.dataList.all.length}个订单`,
+              message: `找到${this.dataList.select.length}个订单`,
               type: 'success'
             });
             this.wjsFun();
@@ -196,6 +197,10 @@ export default {
         this.getOrderList();
         this.page.nowPageNumber = this.page.pageNumberArr[0];
       }
+    },
+    findClear() {
+      this.getOrderList();
+      this.page.nowPageNumber = this.page.pageNumberArr[0];
     },
     // 获取订单列表
     getOrderList() {

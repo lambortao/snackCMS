@@ -11,7 +11,8 @@
             prefix-icon="el-icon-search" 
             v-model="findContent" 
             placeholder="仅限用户名"
-            @keyup.enter.native="findUser()"></el-input>
+            @keyup.enter.native="findUser()"
+            @clear="findClear()"></el-input>
         </el-col>
       </el-row>
     </header>
@@ -168,6 +169,10 @@ export default {
         this.getUserList();
         this.page.nowPageNumber = this.page.pageNumberArr[0];
       }
+    },
+    findClear() {
+      this.getUserList();
+      this.page.nowPageNumber = this.page.pageNumberArr[0];
     },
     getUserList() {
       this.$port('user/getUserList').then(res => {

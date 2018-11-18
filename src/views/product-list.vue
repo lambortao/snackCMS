@@ -15,6 +15,7 @@
             v-model="findContent" 
             placeholder="仅限商品"
             @keyup.enter.native="findProduct()"
+            @clear="findClear()"
             ></el-input>
         </el-col>
       </el-row>
@@ -168,6 +169,10 @@ export default {
         this.getProductList();
         this.page.nowPageNumber = this.page.pageNumberArr[0];
       }
+    },
+    findClear() {
+      this.getProductList();
+      this.page.nowPageNumber = this.page.pageNumberArr[0];
     },
     getProductList () {
       this.loading = true;
