@@ -6,12 +6,22 @@
         "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
       }
     }],
+    ["es2015", { "modules": false }],
     "stage-2"
   ],
-  "plugins": ["transform-vue-jsx", "transform-runtime", ["import", {
-    "libraryName": "iview",
-    "libraryDirectory": "src/components"
-  }]],
+  "plugins": [
+    "transform-vue-jsx", 
+    "transform-runtime", 
+    ["import", {
+      "libraryName": "iview",
+      "libraryDirectory": "src/components"
+    }],
+    ["component", {
+        "libraryName": "element-ui",
+        "styleLibraryName": "theme-chalk"
+      }
+    ]
+  ],
   "env": {
     "test": {
       "presets": ["env", "stage-2"]
