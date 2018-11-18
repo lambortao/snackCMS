@@ -16,7 +16,13 @@
           <reloadPage @reloadpage="getOrderList"></reloadPage>
         </el-col>
         <el-col :span="4" :offset="14">
-          <el-input prefix-icon="el-icon-search" v-model="findContent" placeholder="仅限用户和商品"></el-input>
+          <el-input 
+            clearable
+            prefix-icon="el-icon-search" 
+            v-model="findContent" 
+            placeholder="仅限用户和商品"
+            @keyup.enter.native="findOrder()"
+            ></el-input>
         </el-col>
       </el-row>
     </header>
@@ -90,6 +96,9 @@
         :total="page.total">
       </el-pagination>
       <div v-if="wjs.show" class="wjs">
+        <p style="color: #F56C6C;font-size: 1.25em;font-weight: bold;">
+          使用搜索功能进行结算时，需确认当前搜索结果是否只有该用户！
+        </p>
         <p style="color: #F56C6C;font-size: 1.25em;font-weight: bold;">未结算金额：￥{{wjs.money}}</p>
         <el-button v-if="wjs.money == 0" disabled plain size="small">已全部结算</el-button>
         <el-button v-else plain size="small" @click="settlement()">全部结算</el-button>
@@ -161,6 +170,33 @@ export default {
     this.page.nowPageNumber = this.page.pageNumberArr[0];
   },
   methods: {
+    // 搜索订单
+    findOrder() {
+      if (this.findContent != '') {
+        this.$port('order/findOrder', {
+          order: this.findContent
+        }).then(res => {
+          if (res) {
+            this.dataList.select = res.data;
+            this.page.total = this.dataList.show.length;
+            this.pageFun(0, this.page.nowPageNumber);
+            this.$message({
+              message: `找到${this.dataList.all.length}个订单`,
+              type: 'success'
+            });
+            this.wjsFun();
+          } else {
+            this.$message({
+              type: 'info',
+              message: '没有找到符合关键字的订单'
+            }); 
+          }
+        });
+      } else {
+        this.getOrderList();
+        this.page.nowPageNumber = this.page.pageNumberArr[0];
+      }
+    },
     // 获取订单列表
     getOrderList() {
       this.$port('order/getOrderList').then(res => {
@@ -196,6 +232,17 @@ export default {
         }
       });
     },
+    // 计算当前用户的未结算金额
+    wjsFun() {
+      this.wjs.money = 0;
+      this.dataList.select.forEach(element => {
+        if (!element.end_time) {
+          this.wjs.name = element.user_name;
+          this.wjs.money += parseFloat(element.pro_Price);
+        }
+      });
+      this.wjs.show = true;
+    },
     // 用户筛选
     changeUser() {
       let lsOrder = [];
@@ -212,16 +259,7 @@ export default {
         });
         this.dataList.select = [];
         this.dataList.select = lsOrder;
-
-        // 计算当前用户的未结算金额
-        this.wjs.money = 0;
-        this.dataList.select.forEach(element => {
-          if (!element.end_time) {
-            this.wjs.name = element.user_name;
-            this.wjs.money += parseFloat(element.pro_Price);
-          }
-        });
-        this.wjs.show = true;
+        this.wjsFun();
       }
       // 用户筛选后需要重新计算总数据量和重置翻页函数
       this.page.total = this.dataList.select.length;

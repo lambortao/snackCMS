@@ -7,6 +7,7 @@
         </el-col>
         <el-col :span="4" :offset="18">
           <el-input 
+            clearable
             prefix-icon="el-icon-search" 
             v-model="findContent" 
             placeholder="仅限用户名"

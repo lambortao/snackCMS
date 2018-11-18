@@ -10,6 +10,7 @@
         </el-col>
         <el-col :span="4" :offset="15">
           <el-input 
+            clearable
             prefix-icon="el-icon-search" 
             v-model="findContent" 
             placeholder="仅限商品"
