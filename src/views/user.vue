@@ -148,13 +148,20 @@ export default {
         this.$port('user/findUser', {
           nickName: this.findContent
         }).then(res => {
-          this.dataList.all = res.data;
-          this.page.total = this.dataList.show.length;
-          this.pageFun(0, this.page.nowPageNumber);
-          this.$message({
-            message: `找到${this.dataList.all.length}名用户`,
-            type: 'success'
-          });
+          if (res) {
+            this.dataList.all = res.data;
+            this.page.total = this.dataList.show.length;
+            this.pageFun(0, this.page.nowPageNumber);
+            this.$message({
+              message: `找到${this.dataList.all.length}名用户`,
+              type: 'success'
+            });
+          } else {
+            this.$message({
+              type: 'info',
+              message: '没有找到符合关键字的用户'
+            }); 
+          }
         });
       } else {
         this.getUserList();

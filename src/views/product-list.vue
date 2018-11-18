@@ -9,7 +9,12 @@
           <reloadPage @reloadpage="getProductList"></reloadPage>
         </el-col>
         <el-col :span="4" :offset="15">
-          <el-input prefix-icon="el-icon-search" v-model="findContent" placeholder="仅限商品"></el-input>
+          <el-input 
+            prefix-icon="el-icon-search" 
+            v-model="findContent" 
+            placeholder="仅限商品"
+            @keyup.enter.native="findProduct()"
+            ></el-input>
         </el-col>
       </el-row>
     </header>
@@ -137,6 +142,32 @@ export default {
     this.page.nowPageNumber = this.page.pageNumberArr[0];
   },
   methods: {
+    // 搜索商品
+    findProduct() {
+      if (this.findContent != '') {
+        this.$port('product/findProduct', {
+          name: this.findContent
+        }).then(res => {
+          if (res) {
+            this.dataList.all = res.data;
+            this.page.total = this.dataList.show.length;
+            this.pageFun(0, this.page.nowPageNumber);
+            this.$message({
+              message: `找到${this.dataList.all.length}个商品`,
+              type: 'success'
+            });
+          } else {
+            this.$message({
+              type: 'info',
+              message: '没有找到符合关键字的商品'
+            }); 
+          }
+        });
+      } else {
+        this.getProductList();
+        this.page.nowPageNumber = this.page.pageNumberArr[0];
+      }
+    },
     getProductList () {
       this.loading = true;
       this.$port('product/getProductList').then((res) => {
