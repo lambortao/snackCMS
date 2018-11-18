@@ -142,6 +142,7 @@ export default {
     reloadPage
   },
   methods: {
+    // 搜索用户
     findUser() {
       if (this.findContent != '') {
         this.$port('user/findUser', {
@@ -150,7 +151,11 @@ export default {
           this.dataList.all = res.data;
           this.page.total = this.dataList.show.length;
           this.pageFun(0, this.page.nowPageNumber);
-        })
+          this.$message({
+            message: `找到${this.dataList.all.length}名用户`,
+            type: 'success'
+          });
+        });
       } else {
         this.getUserList();
         this.page.nowPageNumber = this.page.pageNumberArr[0];
