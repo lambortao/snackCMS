@@ -13,6 +13,7 @@ import { __port, __del, __hot } from '@/api'
 
 // 按需引入elementUI
 import {
+  Card,
   Row,
   Col,
   Icon,
@@ -31,6 +32,7 @@ import {
   Option,
   TableColumn,
 } from 'element-ui';
+Vue.use(Card);
 Vue.use(Row);
 Vue.use(Col);
 Vue.use(Icon);
