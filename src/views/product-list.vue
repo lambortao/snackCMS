@@ -178,13 +178,15 @@ export default {
       this.loading = true;
       this.$port('product/getProductList').then((res) => {
         this.loading = false;
-        // 获取到全部数据之后，默认情况下筛选的数据就是全部数据
-        this.dataList.all = res;
-        this.dataList.show = this.dataList.all;
-        // 计算数据总量
-        this.page.total = this.dataList.show.length;
-        // 初始重置翻页函数
-        this.pageFun(0, this.page.nowPageNumber);
+        if (res) {
+          // 获取到全部数据之后，默认情况下筛选的数据就是全部数据
+          this.dataList.all = res;
+          this.dataList.show = this.dataList.all;
+          // 计算数据总量
+          this.page.total = this.dataList.show.length;
+          // 初始重置翻页函数
+          this.pageFun(0, this.page.nowPageNumber);
+        }
       })
     },
     // 进入商品详情页

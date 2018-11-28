@@ -207,16 +207,18 @@ export default {
       this.$port('order/getOrderList').then(res => {
         // 去除加载loading
         this.loading = false;
-        // 获取到全部数据之后，默认情况下筛选的数据就是全部数据
-        this.dataList.all = res;
-        this.dataList.select = this.dataList.all;
-        // 计算数据总量
-        this.page.total = this.dataList.select.length;
-        // 初始计算当前一共有多少用户
-        this.filterUser(this.dataList.select);
-        // 初始重置翻页函数
-        this.pageFun(0, this.page.nowPageNumber);
-        this.changeUser();
+        if (res) {
+          // 获取到全部数据之后，默认情况下筛选的数据就是全部数据
+          this.dataList.all = res;
+          this.dataList.select = this.dataList.all;
+          // 计算数据总量
+          this.page.total = this.dataList.select.length;
+          // 初始计算当前一共有多少用户
+          this.filterUser(this.dataList.select);
+          // 初始重置翻页函数
+          this.pageFun(0, this.page.nowPageNumber);
+          this.changeUser();
+        }
       });
     },
     // 把数据中的用户筛选出来，显示到选择框

@@ -23,6 +23,7 @@ import {
   Select,
   Switch,
   Form,
+  FormItem,
   Table,
   Pagination,
   Loading,
@@ -42,6 +43,7 @@ Vue.use(InputNumber);
 Vue.use(Select);
 Vue.use(Switch);
 Vue.use(Form);
+Vue.use(FormItem);
 Vue.use(Table);
 Vue.use(Pagination);
 Vue.use(Loading);
