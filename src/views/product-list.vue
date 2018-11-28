@@ -51,6 +51,10 @@
           label="库存"
           width="100"
           align="center">
+          <template slot-scope="scope">
+            <p v-if="scope.row.stock == 0" style="color: #F56C6C; font-weight: bold;">售罄</p>
+            <p v-else>{{ scope.row.stock }}</p>
+          </template>
         </el-table-column>
         <el-table-column
           label="上架"
