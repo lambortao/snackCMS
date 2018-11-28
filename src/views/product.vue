@@ -69,7 +69,7 @@ export default {
         ],
         content: [
           { required: true, message: '请输入商品详情', trigger: 'blur' },
-          { min: 3, max: 100, message: '长度在 3 到 100 个字符', trigger: 'blur' }
+          { min: 3, max: 1000, message: '长度在 3 到 1000 个字符', trigger: 'blur' }
         ]
       }
     };
