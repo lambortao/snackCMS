@@ -69,14 +69,6 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="消费记录"
-          width="150"
-          align="center">
-          <template slot-scope="scope">
-            <el-button plain size="small">点击查看</el-button>
-          </template>
-        </el-table-column>
-        <el-table-column
           label="操作"
           width="200"
           align="center">
@@ -190,9 +182,7 @@ export default {
     rechargeFun(name, id) {
       this.$prompt('请输入金额', `为${name}充值`, {
         confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        inputPattern: /^[0-9]*[1-9][0-9]*$/,
-        inputErrorMessage: '输入正确的金额'
+        cancelButtonText: '取消'
       }).then(({ value }) => {
         this.apiRecharge(name, id, value);
       }).catch(() => {
@@ -216,6 +206,7 @@ export default {
         }).then(res => {
           if (res.status == 1) {
             this.getUserList();
+            this.page.nowPageNumber = this.page.pageNumberArr[0];
             this.$message({
               message: `成功为${name}充值${money}元，余额为${res.over_money}元`,
               type: 'success'
