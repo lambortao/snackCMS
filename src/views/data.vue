@@ -142,7 +142,6 @@ export default {
               '销量': parseInt(element.sales_volume)
             });
           });
-          console.log(this.singleProductSales.rows);
         }
       })
     },
