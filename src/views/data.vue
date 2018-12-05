@@ -21,16 +21,6 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="4">
-        <el-card shadow="hover">
-          <div slot="header">
-            <h3>当前总用户</h3>
-          </div>
-          <div class="data">
-            <p>{{allUser}}人</p>
-          </div>
-        </el-card>
-      </el-col>
     </el-row>
   </div>
 </template>
@@ -41,6 +31,18 @@ export default {
       dayMoney: 10,
       passengerFlow: 10,
       allUser: 30
+    }
+  },
+  created() {
+    this.getTurnoverList();
+  },
+  methods: {
+    getTurnoverList() {
+      this.$port('turnover/getTurnoverList').then(res => {
+        let todayData = res[res.length - 1];
+        this.dayMoney = parseFloat(todayData['turnover']);
+        this.passengerFlow = todayData['passenger_flow'];
+      });
     }
   }
 }
