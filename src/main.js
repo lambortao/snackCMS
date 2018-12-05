@@ -23,6 +23,7 @@ import {
   Select,
   Switch,
   Form,
+  Radio,
   FormItem,
   Table,
   Pagination,
@@ -35,6 +36,7 @@ import {
 } from 'element-ui';
 Vue.use(Card);
 Vue.use(Row);
+Vue.use(Radio);
 Vue.use(Col);
 Vue.use(Icon);
 Vue.use(Button);
