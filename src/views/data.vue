@@ -23,26 +23,38 @@
       </el-col>
     </el-row>
     <el-row :gutter="20">
-      <div class="ve-button" style="padding: 10px;margin: 40px 0 0px 0;">
-        <el-radio v-model="showDay" label="1" border @change="changeDay(7)">查看七天</el-radio>
-        <el-radio v-model="showDay" label="2" border @change="changeDay(30)">查看一月</el-radio>
+      <div class="turnover" style="padding: 10px;margin-top: 30px;">
+        <div class="ve-button">
+          <el-radio v-model="showDay" label="1" border @change="changeDay(7)">查看七天</el-radio>
+          <el-radio v-model="showDay" label="2" border @change="changeDay(30)">查看一月</el-radio>
+        </div>
+        <ve-line 
+          :data="chartData" 
+          :colors="colors"
+          :toolbox="toolbox"></ve-line>
       </div>
-      <ve-line 
-        :data="chartData" 
-        :colors="colors"
-        :toolbox="toolbox"></ve-line>
+      <div class="sales-volume" style="padding: 10px;">
+        <h2>单品销量</h2>
+        <ve-histogram 
+          :data="singleProductSales" 
+          :colors="colors"
+          :settings="chartSettings"
+          :extend="chartExtend"></ve-histogram>
+      </div>
     </el-row>
   </div>
 </template>
 <script>
 import VeLine from 'v-charts/lib/line.common';
 import VeBar from 'v-charts/lib/bar.common';
+import VeHistogram from 'v-charts/lib/histogram.common';
 import 'echarts/lib/component/toolbox';
 
 export default {
   components: {
     VeLine,
-    VeBar
+    VeBar,
+    VeHistogram
   },
   data () {
     return {
@@ -51,6 +63,16 @@ export default {
       dayMoney: 10,
       passengerFlow: 10,
       allUser: 30,
+      chartSettings: {
+        axisSite: { left: ['销量'] }
+      },
+      chartExtend: {
+        xAxis: {
+          axisLabel: {
+            rotate: 45
+          }
+        }
+      },
       colors: ['#c23531','#2f4554'],
       toolbox: {
         feature: {
@@ -61,11 +83,16 @@ export default {
       chartData: {
         columns: ['时间', '日商', '客流量'],
         rows: []
+      },
+      singleProductSales: {
+        columns: ['商品', '销量'],
+        rows: []
       }
     }
   },
   created() {
     this.getTurnoverList();
+    this.getProductList();
   },
   methods: {
     // 获取数据列表
@@ -102,9 +129,23 @@ export default {
       });
       this.chartData.rows = newData;
     },
+    // 切换日商时间
     changeDay(day) {
       this.runCharts(day, this.allData);
-    }
+    },
+    getProductList () {
+      this.$port('product/getProductList').then((res) => {
+        if (res) {
+          res.forEach(element => {
+            this.singleProductSales.rows.push({
+              '商品': element.name,
+              '销量': parseInt(element.sales_volume)
+            });
+          });
+          console.log(this.singleProductSales.rows);
+        }
+      })
+    },
   }
 }
 </script>
