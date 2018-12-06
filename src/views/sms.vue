@@ -112,6 +112,9 @@ export default {
         case '0': 
           endContent = '发送成功';
           break;
+        case '9997': 
+          endContent = '号码超频';
+          break;
         case '10000': 
           endContent = '参数异常';
           break;
