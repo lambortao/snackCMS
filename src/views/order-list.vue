@@ -87,7 +87,7 @@
             <el-button v-if="scope.row.close == 0" type="primary" plain size="small" @click="settlement(scope.row.id, scope.row.pro_Price, scope.row.user_name)">结算</el-button>
             <el-button v-else-if="scope.row.close == 1" disabled plain size="small">已结</el-button>
             <el-button v-else-if="scope.row.close == 2" type="warning" disabled plain size="small">已退</el-button>
-            <el-button v-if="scope.row.close == 0" type="danger" plain size="small">退单</el-button>
+            <el-button v-if="scope.row.close == 0" type="danger" plain size="small" @click="closeOrder(scope.row.id, scope.row.pro_Price, scope.row.pro_id)">退单</el-button>
             <el-button v-else disabled plain size="small">退单</el-button>
           </template>
         </el-table-column>
@@ -319,7 +319,7 @@ export default {
         userName = name;
       } else {
         this.dataList.select.forEach(element => {
-          if (!element.end_time) {
+          if (element.close == 0) {
             orderArr.push(element.id);
           }
         });
@@ -349,6 +349,10 @@ export default {
           message: '取消结算'
         });          
       });
+    },
+    // 退单
+    closeOrder(orderId, money, proId) {
+      
     }
   }
 }
