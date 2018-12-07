@@ -55,6 +55,13 @@
           prop="time"
           label="操作时间">
         </el-table-column>
+        <el-table-column
+          label="充值备注">
+          <template slot-scope="scope">
+            <p v-if="scope.row.remarks == null">标准充值</p>
+            <p v-else style="color: #F56C6C; font-weight: bold;">{{ scope.row.remarks }}</p>
+          </template>
+        </el-table-column>
       </el-table>
     </section>
     <footer>
