@@ -63,9 +63,12 @@
           width="200">
         </el-table-column>
         <el-table-column
-          prop="end_time"
-          label="结算日期"
+          label="结束日期"
           width="200">
+          <template slot-scope="scope">
+            <p v-if="scope.row.close == 2" style="color: #e6a23c;">{{ scope.row.end_time }}</p>
+            <p v-else>{{ scope.row.end_time }}</p>
+          </template>
         </el-table-column>
         <el-table-column
           prop="order_type"
@@ -78,11 +81,14 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="100"
+          width="160"
           align="center">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.end_time == null" plain size="small" @click="settlement(scope.row.id, scope.row.pro_Price, scope.row.user_name)">结算</el-button>
-            <el-button v-else disabled plain size="small">已结算</el-button>
+            <el-button v-if="scope.row.close == 0" type="primary" plain size="small" @click="settlement(scope.row.id, scope.row.pro_Price, scope.row.user_name)">结算</el-button>
+            <el-button v-else-if="scope.row.close == 1" disabled plain size="small">已结</el-button>
+            <el-button v-else-if="scope.row.close == 2" type="warning" disabled plain size="small">已退</el-button>
+            <el-button v-if="scope.row.close == 0" type="danger" plain size="small">退单</el-button>
+            <el-button v-else disabled plain size="small">退单</el-button>
           </template>
         </el-table-column>
       </el-table>
