@@ -87,7 +87,7 @@
             <el-button v-if="scope.row.close == 0" type="primary" plain size="small" @click="settlement(scope.row.id, scope.row.pro_Price, scope.row.user_name)">结算</el-button>
             <el-button v-else-if="scope.row.close == 1" disabled plain size="small">已结</el-button>
             <el-button v-else-if="scope.row.close == 2" type="warning" disabled plain size="small">已退</el-button>
-            <el-button v-if="scope.row.close == 0" type="danger" plain size="small" @click="closeOrder(scope.row.id, scope.row.pro_Price, scope.row.pro_id)">退单</el-button>
+            <el-button v-if="scope.row.close == 0" type="danger" plain size="small" @click="closeOrder(scope.row.id, scope.row.pro_Price, scope.row.pro_id, scope.row.start_time)">退单</el-button>
             <el-button v-else disabled plain size="small">退单</el-button>
           </template>
         </el-table-column>
@@ -351,8 +351,32 @@ export default {
       });
     },
     // 退单
-    closeOrder(orderId, money, proId) {
-      
+    closeOrder(orderId, money, proId, time) {
+      this.$confirm('确认退掉该笔订单？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$port('order/closeOrder', {
+          orderid: orderId,
+          productid: proId,
+          price: money,
+          producttime: time
+        }).then(res => {
+          if (res.status == 1) {
+            this.getOrderList();
+            this.$message({
+              message: '已成功退单！',
+              type: 'success'
+            });
+          }
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消退单'
+        });          
+      });
     }
   }
 }
