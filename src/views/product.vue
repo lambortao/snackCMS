@@ -10,6 +10,13 @@
       <el-form-item label="商品详情" prop="content">
         <el-input type="textarea" v-model="ruleForm.content" style="width: 300px;"></el-input>
       </el-form-item>
+      <el-form-item label="商品标签">
+        <el-checkbox-group v-model="ruleForm.tag">
+          <el-checkbox label="hot" border></el-checkbox>
+          <el-checkbox label="noodles" border></el-checkbox>
+          <el-checkbox label="drink" border></el-checkbox>
+        </el-checkbox-group>
+      </el-form-item>
       <el-form-item label="商品价格" prop="price">
         <el-input-number v-model="ruleForm.price" :precision="1" :min="0.5" :step="0.1" :max="100"></el-input-number>
       </el-form-item>
@@ -54,6 +61,7 @@ export default {
         intro: '',
         content: '',
         price: 1,
+        tag: [],
         stock: 1,
         sell: true,
         hot: false
@@ -104,7 +112,7 @@ export default {
             doneMsg = '商品添加成功！'
           }
           this.postLoading = true;
-          this.$port(apiUrl, this.ruleForm).then((res) => {
+          this.$port(apiUrl, JSON.stringify(this.ruleForm)).then((res) => {
             if (res.status == 1) {
               this.$message({
                 message: doneMsg,

@@ -32,6 +32,9 @@ import {
   MessageBox,
   Notification,
   Option,
+  Checkbox,
+  CheckboxButton,
+  CheckboxGroup,
   TableColumn,
 } from 'element-ui';
 Vue.use(Card);
@@ -49,6 +52,9 @@ Vue.use(FormItem);
 Vue.use(Table);
 Vue.use(Pagination);
 Vue.use(Loading);
+Vue.use(Checkbox);
+Vue.use(CheckboxButton);
+Vue.use(CheckboxGroup);
 Vue.component(Message);
 Vue.use(Option);
 Vue.component(MessageBox);
