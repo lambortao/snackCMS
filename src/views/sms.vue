@@ -16,7 +16,7 @@
         v-loading="loading">
         <el-table-column
           fixed
-          width="40"
+          width="60"
           align="center">
           <template slot-scope="scope">
             <p>{{scope.row.id}}</p>
